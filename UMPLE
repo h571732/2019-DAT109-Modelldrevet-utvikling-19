@@ -1,1 +1,58 @@
+class Stand
+{
+  * -- * Statistikk Oppdaterer;
+}
 
+class Statistikk
+{
+}
+
+class Bruker
+{
+  * -- * Stand Stemmer;
+}
+
+class Jury
+{
+  * -- * Stand Stemme;
+  * -- * Statistikk Se;
+}
+
+class Besoek
+{
+  * -- * Stand;
+  * -- * Bruker;
+}
+
+//$?[End_of_model]$?
+
+class Stand
+{
+  position 167 19 109 39;
+  position.association Stand__Statistikk 109,20 0,18;
+}
+
+class Statistikk
+{
+  position 443 32 109 39;
+}
+
+class Bruker
+{
+  position 211 109 109 41;
+  position.association Bruker__Stand 30,0 58,39;
+}
+
+class Jury
+{
+  position 394 105 109 41;
+  position.association Jury__Stand 0,8 90,39;
+  position.association Jury__Statistikk 73,0 38,39;
+}
+
+class Besoek
+{
+  position 7 33 109 39;
+  position.association Besoek__Stand 109,4 0,25;
+  position.association Besoek__Bruker 83,39 0,19;
+}
