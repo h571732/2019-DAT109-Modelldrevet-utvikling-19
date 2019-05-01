@@ -1,6 +1,6 @@
 #Tilstandsdiagrammet fra Umple:
 
-class EXPO-Applikasjon {
+class EXPOApplikasjon {
 
   Frontpage {
     Welcome {
