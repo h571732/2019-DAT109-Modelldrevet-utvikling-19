@@ -1,0 +1,60 @@
+#Tilstandsdiagrammet fra Umple:
+
+class EXPO-Applikasjon {
+
+  Frontpage {
+    Welcome {
+	    entry / {chooseOption();}
+		  loginOption -> Login;
+		  registerOption -> Register;
+  	}
+
+		Login {
+      entry / {logInWithUserInfo();}
+      userFound -> LoggedIn;
+      userNotFound -> LoginFailed;
+  	}
+
+    LoggedIn {
+      entry / {showAllProjects()};
+  	}
+
+    LoginFailed {
+     	entry / {showErrorMessage();}
+      -> Register;
+   	}
+
+	  Register {
+		  entry / {enterUserInfo();}
+		  exit / {registerUserInfo();}
+      registered -> Login;
+      userAlreadyExists -> Register;
+   }
+
+  }
+
+ 	Feedback {
+	 ChooseProject {
+		  entry/{chooseProject();}
+		  projectIsChosen -> Rating;
+	 }
+
+	 Rating {
+		  entry / {chooseRating();}
+			exit / {registerRating();}
+			ratingCompleted -> Rated;
+			ratingFailed -> RatingFailed;
+	 }
+
+	 Rated {
+			entry/{showRating();}
+	 }
+
+	 RatingFailed {
+			entry/{showErrorMessage();}
+			-> ChooseProject;
+	 }
+
+	}
+
+}
