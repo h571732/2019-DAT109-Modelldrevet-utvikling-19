@@ -1,0 +1,170 @@
+#SQL-Kode til domenemodell:
+
+
+//%% NEW FILE Kategori BEGINS HERE %%
+-- PLEASE DO NOT EDIT THIS CODE
+-- This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!
+
+
+
+CREATE TABLE IF NOT EXISTS `kategori`
+(
+  /*------------------------*/
+  /* MEMBER VARIABLES       */
+  /*------------------------*/
+  
+  /*kategori Attributes*/
+  k_id INT,
+  antall BLOB,
+  PRIMARY KEY(k_id)
+
+);
+
+
+
+
+
+
+//%% NEW FILE Stemme BEGINS HERE %%
+
+-- PLEASE DO NOT EDIT THIS CODE
+-- This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!
+
+
+
+CREATE TABLE IF NOT EXISTS `stemme`
+(
+  /*------------------------*/
+  /* MEMBER VARIABLES       */
+  /*------------------------*/
+
+  /*stemme Associations*/
+  arrangement_a_id INT,
+  prosjekt_prosjekt_id INT,
+  
+  /*stemme Attributes*/
+  s_id INT,
+  epost VARCHAR(255),
+  sverdi INT,
+  stidspunkt TIME,
+  PRIMARY KEY(s_id)
+
+);
+
+
+ALTER TABLE `stemme` ADD CONSTRAINT `fk_stemme_arrangement_a_id` FOREIGN KEY (`arrangement_a_id`) REFERENCES `arrangement`(`a_id`);
+ALTER TABLE `stemme` ADD CONSTRAINT `fk_stemme_prosjekt_prosjekt_id` FOREIGN KEY (`prosjekt_prosjekt_id`) REFERENCES `prosjekt`(`prosjekt_id`);
+
+
+
+
+//%% NEW FILE Studie BEGINS HERE %%
+
+-- PLEASE DO NOT EDIT THIS CODE
+-- This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!
+
+
+
+CREATE TABLE IF NOT EXISTS `studie`
+(
+  /*------------------------*/
+  /* MEMBER VARIABLES       */
+  /*------------------------*/
+
+  /*studie Associations*/
+  kategori_k_id INT,
+  
+  /*studie Attributes*/
+  stud_id INT,
+  studnavn VARCHAR(255),
+  studeskrivelse VARCHAR(255),
+  PRIMARY KEY(stud_id)
+
+);
+
+
+ALTER TABLE `studie` ADD CONSTRAINT `fk_studie_kategori_k_id` FOREIGN KEY (`kategori_k_id`) REFERENCES `kategori`(`k_id`);
+
+
+
+
+//%% NEW FILE Bedrift BEGINS HERE %%
+
+-- PLEASE DO NOT EDIT THIS CODE
+-- This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!
+
+
+
+CREATE TABLE IF NOT EXISTS `bedrift`
+(
+  /*------------------------*/
+  /* MEMBER VARIABLES       */
+  /*------------------------*/
+  
+  /*bedrift Attributes*/
+  b_id INT,
+  bnavn VARCHAR(255),
+  bbeskrivelse VARCHAR(255),
+  PRIMARY KEY(b_id)
+
+);
+
+
+
+
+
+
+//%% NEW FILE Prosjekt BEGINS HERE %%
+
+-- PLEASE DO NOT EDIT THIS CODE
+-- This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!
+
+
+
+CREATE TABLE IF NOT EXISTS `prosjekt`
+(
+  /*------------------------*/
+  /* MEMBER VARIABLES       */
+  /*------------------------*/
+
+  /*prosjekt Associations*/
+  arrangement_a_id INT,
+  bedrift_b_id INT,
+  studie_stud_id INT,
+  
+  /*prosjekt Attributes*/
+  prosjekt_id INT,
+  prosjektnavn VARCHAR(255),
+  prosjektbeskrivelse VARCHAR(255),
+  PRIMARY KEY(prosjekt_id)
+
+);
+
+
+ALTER TABLE `prosjekt` ADD CONSTRAINT `fk_prosjekt_arrangement_a_id` FOREIGN KEY (`arrangement_a_id`) REFERENCES `arrangement`(`a_id`);
+ALTER TABLE `prosjekt` ADD CONSTRAINT `fk_prosjekt_bedrift_b_id` FOREIGN KEY (`bedrift_b_id`) REFERENCES `bedrift`(`b_id`);
+ALTER TABLE `prosjekt` ADD CONSTRAINT `fk_prosjekt_studie_stud_id` FOREIGN KEY (`studie_stud_id`) REFERENCES `studie`(`stud_id`);
+
+
+
+
+//%% NEW FILE Arrangement BEGINS HERE %%
+
+-- PLEASE DO NOT EDIT THIS CODE
+-- This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!
+
+
+
+CREATE TABLE IF NOT EXISTS `arrangement`
+(
+  /*------------------------*/
+  /* MEMBER VARIABLES       */
+  /*------------------------*/
+  
+  /*arrangement Attributes*/
+  a_id INT,
+  anavn VARCHAR(255),
+  abeskrivelse VARCHAR(255),
+  PRIMARY KEY(a_id)
+
+);

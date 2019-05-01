@@ -1,0 +1,1442 @@
+#PHP koden for domenemodell:
+
+//%% NEW FILE Kategori BEGINS HERE %%
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+class Kategori
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Kategori Attributes
+  private $kID;
+  private $kategorinavn;
+
+  //Kategori Associations
+  private $studies;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public function __construct($aKID, $aKategorinavn)
+  {
+    $this->kID = $aKID;
+    $this->kategorinavn = $aKategorinavn;
+    $this->studies = array();
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public function setKID($aKID)
+  {
+    $wasSet = false;
+    $this->kID = $aKID;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setKategorinavn($aKategorinavn)
+  {
+    $wasSet = false;
+    $this->kategorinavn = $aKategorinavn;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function getKID()
+  {
+    return $this->kID;
+  }
+
+  public function getKategorinavn()
+  {
+    return $this->kategorinavn;
+  }
+
+  public function getStudy_index($index)
+  {
+    $aStudy = $this->studies[$index];
+    return $aStudy;
+  }
+
+  public function getStudies()
+  {
+    $newStudies = $this->studies;
+    return $newStudies;
+  }
+
+  public function numberOfStudies()
+  {
+    $number = count($this->studies);
+    return $number;
+  }
+
+  public function hasStudies()
+  {
+    $has = $this->numberOfStudies() > 0;
+    return $has;
+  }
+
+  public function indexOfStudy($aStudy)
+  {
+    $wasFound = false;
+    $index = 0;
+    foreach($this->studies as $study)
+    {
+      if ($study->equals($aStudy))
+      {
+        $wasFound = true;
+        break;
+      }
+      $index += 1;
+    }
+    $index = $wasFound ? $index : -1;
+    return $index;
+  }
+
+  public static function minimumNumberOfStudies()
+  {
+    return 0;
+  }
+
+  public function addStudyVia($aStudID, $aStudnavn, $aStudiebeskrivelse)
+  {
+    return new Studie($aStudID, $aStudnavn, $aStudiebeskrivelse, $this);
+  }
+
+  public function addStudy($aStudy)
+  {
+    $wasAdded = false;
+    if ($this->indexOfStudy($aStudy) !== -1) { return false; }
+    $existingKategori = $aStudy->getKategori();
+    $isNewKategori = $existingKategori != null && $this !== $existingKategori;
+    if ($isNewKategori)
+    {
+      $aStudy->setKategori($this);
+    }
+    else
+    {
+      $this->studies[] = $aStudy;
+    }
+    $wasAdded = true;
+    return $wasAdded;
+  }
+
+  public function removeStudy($aStudy)
+  {
+    $wasRemoved = false;
+    //Unable to remove aStudy, as it must always have a kategori
+    if ($this !== $aStudy->getKategori())
+    {
+      unset($this->studies[$this->indexOfStudy($aStudy)]);
+      $this->studies = array_values($this->studies);
+      $wasRemoved = true;
+    }
+    return $wasRemoved;
+  }
+
+  public function addStudyAt($aStudy, $index)
+  {  
+    $wasAdded = false;
+    if($this->addStudy($aStudy))
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfStudies()) { $index = $this->numberOfStudies() - 1; }
+      array_splice($this->studies, $this->indexOfStudy($aStudy), 1);
+      array_splice($this->studies, $index, 0, array($aStudy));
+      $wasAdded = true;
+    }
+    return $wasAdded;
+  }
+
+  public function addOrMoveStudyAt($aStudy, $index)
+  {
+    $wasAdded = false;
+    if($this->indexOfStudy($aStudy) !== -1)
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfStudies()) { $index = $this->numberOfStudies() - 1; }
+      array_splice($this->studies, $this->indexOfStudy($aStudy), 1);
+      array_splice($this->studies, $index, 0, array($aStudy));
+      $wasAdded = true;
+    } 
+    else 
+    {
+      $wasAdded = $this->addStudyAt($aStudy, $index);
+    }
+    return $wasAdded;
+  }
+
+  public function equals($compareTo)
+  {
+    return $this == $compareTo;
+  }
+
+  public function delete()
+  {
+    foreach ($this->studies as $aStudy)
+    {
+      $aStudy->delete();
+    }
+  }
+
+}
+
+
+
+
+//%% NEW FILE Stemme BEGINS HERE %%
+
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+class Stemme
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Stemme Attributes
+  private $stemmeID;
+  private $epost;
+  private $stemmeverdi;
+  private $stemmetidspunkt;
+
+  //Stemme Associations
+  private $arrangement;
+  private $prosjekt;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public function __construct($aStemmeID, $aEpost, $aStemmeverdi, $aStemmetidspunkt, $aArrangement, $aProsjekt)
+  {
+    $this->stemmeID = $aStemmeID;
+    $this->epost = $aEpost;
+    $this->stemmeverdi = $aStemmeverdi;
+    $this->stemmetidspunkt = $aStemmetidspunkt;
+    $didAddArrangement = $this->setArrangement($aArrangement);
+    if (!$didAddArrangement)
+    {
+      throw new Exception("Unable to create stemme due to arrangement");
+    }
+    $didAddProsjekt = $this->setProsjekt($aProsjekt);
+    if (!$didAddProsjekt)
+    {
+      throw new Exception("Unable to create stemme due to prosjekt");
+    }
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public function setStemmeID($aStemmeID)
+  {
+    $wasSet = false;
+    $this->stemmeID = $aStemmeID;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setEpost($aEpost)
+  {
+    $wasSet = false;
+    $this->epost = $aEpost;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setStemmeverdi($aStemmeverdi)
+  {
+    $wasSet = false;
+    $this->stemmeverdi = $aStemmeverdi;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setStemmetidspunkt($aStemmetidspunkt)
+  {
+    $wasSet = false;
+    $this->stemmetidspunkt = $aStemmetidspunkt;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function getStemmeID()
+  {
+    return $this->stemmeID;
+  }
+
+  public function getEpost()
+  {
+    return $this->epost;
+  }
+
+  public function getStemmeverdi()
+  {
+    return $this->stemmeverdi;
+  }
+
+  public function getStemmetidspunkt()
+  {
+    return $this->stemmetidspunkt;
+  }
+
+  public function getArrangement()
+  {
+    return $this->arrangement;
+  }
+
+  public function getProsjekt()
+  {
+    return $this->prosjekt;
+  }
+
+  public function setArrangement($aArrangement)
+  {
+    $wasSet = false;
+    if ($aArrangement == null)
+    {
+      return $wasSet;
+    }
+    
+    $existingArrangement = $this->arrangement;
+    $this->arrangement = $aArrangement;
+    if ($existingArrangement != null && $existingArrangement != $aArrangement)
+    {
+      $existingArrangement->removeStemme($this);
+    }
+    $this->arrangement->addStemme($this);
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setProsjekt($aProsjekt)
+  {
+    $wasSet = false;
+    if ($aProsjekt == null)
+    {
+      return $wasSet;
+    }
+    
+    $existingProsjekt = $this->prosjekt;
+    $this->prosjekt = $aProsjekt;
+    if ($existingProsjekt != null && $existingProsjekt != $aProsjekt)
+    {
+      $existingProsjekt->removeStemme($this);
+    }
+    $this->prosjekt->addStemme($this);
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function equals($compareTo)
+  {
+    return $this == $compareTo;
+  }
+
+  public function delete()
+  {
+    $placeholderArrangement = $this->arrangement;
+    $this->arrangement = null;
+    $placeholderArrangement->removeStemme($this);
+    $placeholderProsjekt = $this->prosjekt;
+    $this->prosjekt = null;
+    $placeholderProsjekt->removeStemme($this);
+  }
+
+}
+
+
+
+
+//%% NEW FILE Studie BEGINS HERE %%
+
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+class Studie
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Studie Attributes
+  private $studID;
+  private $studnavn;
+  private $studiebeskrivelse;
+
+  //Studie Associations
+  private $kategori;
+  private $prosjekts;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public function __construct($aStudID, $aStudnavn, $aStudiebeskrivelse, $aKategori)
+  {
+    $this->studID = $aStudID;
+    $this->studnavn = $aStudnavn;
+    $this->studiebeskrivelse = $aStudiebeskrivelse;
+    $didAddKategori = $this->setKategori($aKategori);
+    if (!$didAddKategori)
+    {
+      throw new Exception("Unable to create study due to kategori");
+    }
+    $this->prosjekts = array();
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public function setStudID($aStudID)
+  {
+    $wasSet = false;
+    $this->studID = $aStudID;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setStudnavn($aStudnavn)
+  {
+    $wasSet = false;
+    $this->studnavn = $aStudnavn;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setStudiebeskrivelse($aStudiebeskrivelse)
+  {
+    $wasSet = false;
+    $this->studiebeskrivelse = $aStudiebeskrivelse;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function getStudID()
+  {
+    return $this->studID;
+  }
+
+  public function getStudnavn()
+  {
+    return $this->studnavn;
+  }
+
+  public function getStudiebeskrivelse()
+  {
+    return $this->studiebeskrivelse;
+  }
+
+  public function getKategori()
+  {
+    return $this->kategori;
+  }
+
+  public function getProsjekt_index($index)
+  {
+    $aProsjekt = $this->prosjekts[$index];
+    return $aProsjekt;
+  }
+
+  public function getProsjekts()
+  {
+    $newProsjekts = $this->prosjekts;
+    return $newProsjekts;
+  }
+
+  public function numberOfProsjekts()
+  {
+    $number = count($this->prosjekts);
+    return $number;
+  }
+
+  public function hasProsjekts()
+  {
+    $has = $this->numberOfProsjekts() > 0;
+    return $has;
+  }
+
+  public function indexOfProsjekt($aProsjekt)
+  {
+    $wasFound = false;
+    $index = 0;
+    foreach($this->prosjekts as $prosjekt)
+    {
+      if ($prosjekt->equals($aProsjekt))
+      {
+        $wasFound = true;
+        break;
+      }
+      $index += 1;
+    }
+    $index = $wasFound ? $index : -1;
+    return $index;
+  }
+
+  public function setKategori($aKategori)
+  {
+    $wasSet = false;
+    if ($aKategori == null)
+    {
+      return $wasSet;
+    }
+    
+    $existingKategori = $this->kategori;
+    $this->kategori = $aKategori;
+    if ($existingKategori != null && $existingKategori != $aKategori)
+    {
+      $existingKategori->removeStudy($this);
+    }
+    $this->kategori->addStudy($this);
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public static function minimumNumberOfProsjekts()
+  {
+    return 0;
+  }
+
+  public function addProsjektVia($aProsjektID, $aProsjektnavn, $aBeskrivelse, $aArrangement, $aBedrift)
+  {
+    return new Prosjekt($aProsjektID, $aProsjektnavn, $aBeskrivelse, $aArrangement, $aBedrift, $this);
+  }
+
+  public function addProsjekt($aProsjekt)
+  {
+    $wasAdded = false;
+    if ($this->indexOfProsjekt($aProsjekt) !== -1) { return false; }
+    $existingStudie = $aProsjekt->getStudie();
+    $isNewStudie = $existingStudie != null && $this !== $existingStudie;
+    if ($isNewStudie)
+    {
+      $aProsjekt->setStudie($this);
+    }
+    else
+    {
+      $this->prosjekts[] = $aProsjekt;
+    }
+    $wasAdded = true;
+    return $wasAdded;
+  }
+
+  public function removeProsjekt($aProsjekt)
+  {
+    $wasRemoved = false;
+    //Unable to remove aProsjekt, as it must always have a studie
+    if ($this !== $aProsjekt->getStudie())
+    {
+      unset($this->prosjekts[$this->indexOfProsjekt($aProsjekt)]);
+      $this->prosjekts = array_values($this->prosjekts);
+      $wasRemoved = true;
+    }
+    return $wasRemoved;
+  }
+
+  public function addProsjektAt($aProsjekt, $index)
+  {  
+    $wasAdded = false;
+    if($this->addProsjekt($aProsjekt))
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfProsjekts()) { $index = $this->numberOfProsjekts() - 1; }
+      array_splice($this->prosjekts, $this->indexOfProsjekt($aProsjekt), 1);
+      array_splice($this->prosjekts, $index, 0, array($aProsjekt));
+      $wasAdded = true;
+    }
+    return $wasAdded;
+  }
+
+  public function addOrMoveProsjektAt($aProsjekt, $index)
+  {
+    $wasAdded = false;
+    if($this->indexOfProsjekt($aProsjekt) !== -1)
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfProsjekts()) { $index = $this->numberOfProsjekts() - 1; }
+      array_splice($this->prosjekts, $this->indexOfProsjekt($aProsjekt), 1);
+      array_splice($this->prosjekts, $index, 0, array($aProsjekt));
+      $wasAdded = true;
+    } 
+    else 
+    {
+      $wasAdded = $this->addProsjektAt($aProsjekt, $index);
+    }
+    return $wasAdded;
+  }
+
+  public function equals($compareTo)
+  {
+    return $this == $compareTo;
+  }
+
+  public function delete()
+  {
+    $placeholderKategori = $this->kategori;
+    $this->kategori = null;
+    $placeholderKategori->removeStudy($this);
+    foreach ($this->prosjekts as $aProsjekt)
+    {
+      $aProsjekt->delete();
+    }
+  }
+
+}
+
+
+
+
+//%% NEW FILE Bedrift BEGINS HERE %%
+
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+class Bedrift
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Bedrift Attributes
+  private $bedriftID;
+  private $bedriftnavn;
+  private $bedriftbeskrivelse;
+
+  //Bedrift Associations
+  private $prosjekts;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public function __construct($aBedriftID, $aBedriftnavn, $aBedriftbeskrivelse)
+  {
+    $this->bedriftID = $aBedriftID;
+    $this->bedriftnavn = $aBedriftnavn;
+    $this->bedriftbeskrivelse = $aBedriftbeskrivelse;
+    $this->prosjekts = array();
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public function setBedriftID($aBedriftID)
+  {
+    $wasSet = false;
+    $this->bedriftID = $aBedriftID;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setBedriftnavn($aBedriftnavn)
+  {
+    $wasSet = false;
+    $this->bedriftnavn = $aBedriftnavn;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setBedriftbeskrivelse($aBedriftbeskrivelse)
+  {
+    $wasSet = false;
+    $this->bedriftbeskrivelse = $aBedriftbeskrivelse;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function getBedriftID()
+  {
+    return $this->bedriftID;
+  }
+
+  public function getBedriftnavn()
+  {
+    return $this->bedriftnavn;
+  }
+
+  public function getBedriftbeskrivelse()
+  {
+    return $this->bedriftbeskrivelse;
+  }
+
+  public function getProsjekt_index($index)
+  {
+    $aProsjekt = $this->prosjekts[$index];
+    return $aProsjekt;
+  }
+
+  public function getProsjekts()
+  {
+    $newProsjekts = $this->prosjekts;
+    return $newProsjekts;
+  }
+
+  public function numberOfProsjekts()
+  {
+    $number = count($this->prosjekts);
+    return $number;
+  }
+
+  public function hasProsjekts()
+  {
+    $has = $this->numberOfProsjekts() > 0;
+    return $has;
+  }
+
+  public function indexOfProsjekt($aProsjekt)
+  {
+    $wasFound = false;
+    $index = 0;
+    foreach($this->prosjekts as $prosjekt)
+    {
+      if ($prosjekt->equals($aProsjekt))
+      {
+        $wasFound = true;
+        break;
+      }
+      $index += 1;
+    }
+    $index = $wasFound ? $index : -1;
+    return $index;
+  }
+
+  public static function minimumNumberOfProsjekts()
+  {
+    return 0;
+  }
+
+  public function addProsjektVia($aProsjektID, $aProsjektnavn, $aBeskrivelse, $aArrangement, $aStudie)
+  {
+    return new Prosjekt($aProsjektID, $aProsjektnavn, $aBeskrivelse, $aArrangement, $this, $aStudie);
+  }
+
+  public function addProsjekt($aProsjekt)
+  {
+    $wasAdded = false;
+    if ($this->indexOfProsjekt($aProsjekt) !== -1) { return false; }
+    $existingBedrift = $aProsjekt->getBedrift();
+    $isNewBedrift = $existingBedrift != null && $this !== $existingBedrift;
+    if ($isNewBedrift)
+    {
+      $aProsjekt->setBedrift($this);
+    }
+    else
+    {
+      $this->prosjekts[] = $aProsjekt;
+    }
+    $wasAdded = true;
+    return $wasAdded;
+  }
+
+  public function removeProsjekt($aProsjekt)
+  {
+    $wasRemoved = false;
+    //Unable to remove aProsjekt, as it must always have a bedrift
+    if ($this !== $aProsjekt->getBedrift())
+    {
+      unset($this->prosjekts[$this->indexOfProsjekt($aProsjekt)]);
+      $this->prosjekts = array_values($this->prosjekts);
+      $wasRemoved = true;
+    }
+    return $wasRemoved;
+  }
+
+  public function addProsjektAt($aProsjekt, $index)
+  {  
+    $wasAdded = false;
+    if($this->addProsjekt($aProsjekt))
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfProsjekts()) { $index = $this->numberOfProsjekts() - 1; }
+      array_splice($this->prosjekts, $this->indexOfProsjekt($aProsjekt), 1);
+      array_splice($this->prosjekts, $index, 0, array($aProsjekt));
+      $wasAdded = true;
+    }
+    return $wasAdded;
+  }
+
+  public function addOrMoveProsjektAt($aProsjekt, $index)
+  {
+    $wasAdded = false;
+    if($this->indexOfProsjekt($aProsjekt) !== -1)
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfProsjekts()) { $index = $this->numberOfProsjekts() - 1; }
+      array_splice($this->prosjekts, $this->indexOfProsjekt($aProsjekt), 1);
+      array_splice($this->prosjekts, $index, 0, array($aProsjekt));
+      $wasAdded = true;
+    } 
+    else 
+    {
+      $wasAdded = $this->addProsjektAt($aProsjekt, $index);
+    }
+    return $wasAdded;
+  }
+
+  public function equals($compareTo)
+  {
+    return $this == $compareTo;
+  }
+
+  public function delete()
+  {
+    foreach ($this->prosjekts as $aProsjekt)
+    {
+      $aProsjekt->delete();
+    }
+  }
+
+}
+
+
+
+
+//%% NEW FILE Prosjekt BEGINS HERE %%
+
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+class Prosjekt
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Prosjekt Attributes
+  private $prosjektID;
+  private $prosjektnavn;
+  private $beskrivelse;
+
+  //Prosjekt Associations
+  private $arrangement;
+  private $stemmes;
+  private $bedrift;
+  private $studie;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public function __construct($aProsjektID, $aProsjektnavn, $aBeskrivelse, $aArrangement, $aBedrift, $aStudie)
+  {
+    $this->prosjektID = $aProsjektID;
+    $this->prosjektnavn = $aProsjektnavn;
+    $this->beskrivelse = $aBeskrivelse;
+    $didAddArrangement = $this->setArrangement($aArrangement);
+    if (!$didAddArrangement)
+    {
+      throw new Exception("Unable to create prosjekt due to arrangement");
+    }
+    $this->stemmes = array();
+    $didAddBedrift = $this->setBedrift($aBedrift);
+    if (!$didAddBedrift)
+    {
+      throw new Exception("Unable to create prosjekt due to bedrift");
+    }
+    $didAddStudie = $this->setStudie($aStudie);
+    if (!$didAddStudie)
+    {
+      throw new Exception("Unable to create prosjekt due to studie");
+    }
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public function setProsjektID($aProsjektID)
+  {
+    $wasSet = false;
+    $this->prosjektID = $aProsjektID;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setProsjektnavn($aProsjektnavn)
+  {
+    $wasSet = false;
+    $this->prosjektnavn = $aProsjektnavn;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setBeskrivelse($aBeskrivelse)
+  {
+    $wasSet = false;
+    $this->beskrivelse = $aBeskrivelse;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function getProsjektID()
+  {
+    return $this->prosjektID;
+  }
+
+  public function getProsjektnavn()
+  {
+    return $this->prosjektnavn;
+  }
+
+  public function getBeskrivelse()
+  {
+    return $this->beskrivelse;
+  }
+
+  public function getArrangement()
+  {
+    return $this->arrangement;
+  }
+
+  public function getStemme_index($index)
+  {
+    $aStemme = $this->stemmes[$index];
+    return $aStemme;
+  }
+
+  public function getStemmes()
+  {
+    $newStemmes = $this->stemmes;
+    return $newStemmes;
+  }
+
+  public function numberOfStemmes()
+  {
+    $number = count($this->stemmes);
+    return $number;
+  }
+
+  public function hasStemmes()
+  {
+    $has = $this->numberOfStemmes() > 0;
+    return $has;
+  }
+
+  public function indexOfStemme($aStemme)
+  {
+    $wasFound = false;
+    $index = 0;
+    foreach($this->stemmes as $stemme)
+    {
+      if ($stemme->equals($aStemme))
+      {
+        $wasFound = true;
+        break;
+      }
+      $index += 1;
+    }
+    $index = $wasFound ? $index : -1;
+    return $index;
+  }
+
+  public function getBedrift()
+  {
+    return $this->bedrift;
+  }
+
+  public function getStudie()
+  {
+    return $this->studie;
+  }
+
+  public function setArrangement($aArrangement)
+  {
+    $wasSet = false;
+    if ($aArrangement == null)
+    {
+      return $wasSet;
+    }
+    
+    $existingArrangement = $this->arrangement;
+    $this->arrangement = $aArrangement;
+    if ($existingArrangement != null && $existingArrangement != $aArrangement)
+    {
+      $existingArrangement->removeProsjekt($this);
+    }
+    $this->arrangement->addProsjekt($this);
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public static function minimumNumberOfStemmes()
+  {
+    return 0;
+  }
+
+  public function addStemmeVia($aStemmeID, $aEpost, $aStemmeverdi, $aStemmetidspunkt, $aArrangement)
+  {
+    return new Stemme($aStemmeID, $aEpost, $aStemmeverdi, $aStemmetidspunkt, $aArrangement, $this);
+  }
+
+  public function addStemme($aStemme)
+  {
+    $wasAdded = false;
+    if ($this->indexOfStemme($aStemme) !== -1) { return false; }
+    $existingProsjekt = $aStemme->getProsjekt();
+    $isNewProsjekt = $existingProsjekt != null && $this !== $existingProsjekt;
+    if ($isNewProsjekt)
+    {
+      $aStemme->setProsjekt($this);
+    }
+    else
+    {
+      $this->stemmes[] = $aStemme;
+    }
+    $wasAdded = true;
+    return $wasAdded;
+  }
+
+  public function removeStemme($aStemme)
+  {
+    $wasRemoved = false;
+    //Unable to remove aStemme, as it must always have a prosjekt
+    if ($this !== $aStemme->getProsjekt())
+    {
+      unset($this->stemmes[$this->indexOfStemme($aStemme)]);
+      $this->stemmes = array_values($this->stemmes);
+      $wasRemoved = true;
+    }
+    return $wasRemoved;
+  }
+
+  public function addStemmeAt($aStemme, $index)
+  {  
+    $wasAdded = false;
+    if($this->addStemme($aStemme))
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfStemmes()) { $index = $this->numberOfStemmes() - 1; }
+      array_splice($this->stemmes, $this->indexOfStemme($aStemme), 1);
+      array_splice($this->stemmes, $index, 0, array($aStemme));
+      $wasAdded = true;
+    }
+    return $wasAdded;
+  }
+
+  public function addOrMoveStemmeAt($aStemme, $index)
+  {
+    $wasAdded = false;
+    if($this->indexOfStemme($aStemme) !== -1)
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfStemmes()) { $index = $this->numberOfStemmes() - 1; }
+      array_splice($this->stemmes, $this->indexOfStemme($aStemme), 1);
+      array_splice($this->stemmes, $index, 0, array($aStemme));
+      $wasAdded = true;
+    } 
+    else 
+    {
+      $wasAdded = $this->addStemmeAt($aStemme, $index);
+    }
+    return $wasAdded;
+  }
+
+  public function setBedrift($aBedrift)
+  {
+    $wasSet = false;
+    if ($aBedrift == null)
+    {
+      return $wasSet;
+    }
+    
+    $existingBedrift = $this->bedrift;
+    $this->bedrift = $aBedrift;
+    if ($existingBedrift != null && $existingBedrift != $aBedrift)
+    {
+      $existingBedrift->removeProsjekt($this);
+    }
+    $this->bedrift->addProsjekt($this);
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setStudie($aStudie)
+  {
+    $wasSet = false;
+    if ($aStudie == null)
+    {
+      return $wasSet;
+    }
+    
+    $existingStudie = $this->studie;
+    $this->studie = $aStudie;
+    if ($existingStudie != null && $existingStudie != $aStudie)
+    {
+      $existingStudie->removeProsjekt($this);
+    }
+    $this->studie->addProsjekt($this);
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function equals($compareTo)
+  {
+    return $this == $compareTo;
+  }
+
+  public function delete()
+  {
+    $placeholderArrangement = $this->arrangement;
+    $this->arrangement = null;
+    $placeholderArrangement->removeProsjekt($this);
+    foreach ($this->stemmes as $aStemme)
+    {
+      $aStemme->delete();
+    }
+    $placeholderBedrift = $this->bedrift;
+    $this->bedrift = null;
+    $placeholderBedrift->removeProsjekt($this);
+    $placeholderStudie = $this->studie;
+    $this->studie = null;
+    $placeholderStudie->removeProsjekt($this);
+  }
+
+}
+
+
+
+
+//%% NEW FILE Arrangement BEGINS HERE %%
+
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+class Arrangement
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Arrangement Attributes
+  private $aID;
+  private $arrangementnavn;
+  private $arrangementbeskrivelse;
+
+  //Arrangement Associations
+  private $prosjekts;
+  private $stemmes;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public function __construct($aAID, $aArrangementnavn, $aArrangementbeskrivelse)
+  {
+    $this->aID = $aAID;
+    $this->arrangementnavn = $aArrangementnavn;
+    $this->arrangementbeskrivelse = $aArrangementbeskrivelse;
+    $this->prosjekts = array();
+    $this->stemmes = array();
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public function setAID($aAID)
+  {
+    $wasSet = false;
+    $this->aID = $aAID;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setArrangementnavn($aArrangementnavn)
+  {
+    $wasSet = false;
+    $this->arrangementnavn = $aArrangementnavn;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function setArrangementbeskrivelse($aArrangementbeskrivelse)
+  {
+    $wasSet = false;
+    $this->arrangementbeskrivelse = $aArrangementbeskrivelse;
+    $wasSet = true;
+    return $wasSet;
+  }
+
+  public function getAID()
+  {
+    return $this->aID;
+  }
+
+  public function getArrangementnavn()
+  {
+    return $this->arrangementnavn;
+  }
+
+  public function getArrangementbeskrivelse()
+  {
+    return $this->arrangementbeskrivelse;
+  }
+
+  public function getProsjekt_index($index)
+  {
+    $aProsjekt = $this->prosjekts[$index];
+    return $aProsjekt;
+  }
+
+  public function getProsjekts()
+  {
+    $newProsjekts = $this->prosjekts;
+    return $newProsjekts;
+  }
+
+  public function numberOfProsjekts()
+  {
+    $number = count($this->prosjekts);
+    return $number;
+  }
+
+  public function hasProsjekts()
+  {
+    $has = $this->numberOfProsjekts() > 0;
+    return $has;
+  }
+
+  public function indexOfProsjekt($aProsjekt)
+  {
+    $wasFound = false;
+    $index = 0;
+    foreach($this->prosjekts as $prosjekt)
+    {
+      if ($prosjekt->equals($aProsjekt))
+      {
+        $wasFound = true;
+        break;
+      }
+      $index += 1;
+    }
+    $index = $wasFound ? $index : -1;
+    return $index;
+  }
+
+  public function getStemme_index($index)
+  {
+    $aStemme = $this->stemmes[$index];
+    return $aStemme;
+  }
+
+  public function getStemmes()
+  {
+    $newStemmes = $this->stemmes;
+    return $newStemmes;
+  }
+
+  public function numberOfStemmes()
+  {
+    $number = count($this->stemmes);
+    return $number;
+  }
+
+  public function hasStemmes()
+  {
+    $has = $this->numberOfStemmes() > 0;
+    return $has;
+  }
+
+  public function indexOfStemme($aStemme)
+  {
+    $wasFound = false;
+    $index = 0;
+    foreach($this->stemmes as $stemme)
+    {
+      if ($stemme->equals($aStemme))
+      {
+        $wasFound = true;
+        break;
+      }
+      $index += 1;
+    }
+    $index = $wasFound ? $index : -1;
+    return $index;
+  }
+
+  public static function minimumNumberOfProsjekts()
+  {
+    return 0;
+  }
+
+  public function addProsjektVia($aProsjektID, $aProsjektnavn, $aBeskrivelse, $aBedrift, $aStudie)
+  {
+    return new Prosjekt($aProsjektID, $aProsjektnavn, $aBeskrivelse, $this, $aBedrift, $aStudie);
+  }
+
+  public function addProsjekt($aProsjekt)
+  {
+    $wasAdded = false;
+    if ($this->indexOfProsjekt($aProsjekt) !== -1) { return false; }
+    $existingArrangement = $aProsjekt->getArrangement();
+    $isNewArrangement = $existingArrangement != null && $this !== $existingArrangement;
+    if ($isNewArrangement)
+    {
+      $aProsjekt->setArrangement($this);
+    }
+    else
+    {
+      $this->prosjekts[] = $aProsjekt;
+    }
+    $wasAdded = true;
+    return $wasAdded;
+  }
+
+  public function removeProsjekt($aProsjekt)
+  {
+    $wasRemoved = false;
+    //Unable to remove aProsjekt, as it must always have a arrangement
+    if ($this !== $aProsjekt->getArrangement())
+    {
+      unset($this->prosjekts[$this->indexOfProsjekt($aProsjekt)]);
+      $this->prosjekts = array_values($this->prosjekts);
+      $wasRemoved = true;
+    }
+    return $wasRemoved;
+  }
+
+  public function addProsjektAt($aProsjekt, $index)
+  {  
+    $wasAdded = false;
+    if($this->addProsjekt($aProsjekt))
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfProsjekts()) { $index = $this->numberOfProsjekts() - 1; }
+      array_splice($this->prosjekts, $this->indexOfProsjekt($aProsjekt), 1);
+      array_splice($this->prosjekts, $index, 0, array($aProsjekt));
+      $wasAdded = true;
+    }
+    return $wasAdded;
+  }
+
+  public function addOrMoveProsjektAt($aProsjekt, $index)
+  {
+    $wasAdded = false;
+    if($this->indexOfProsjekt($aProsjekt) !== -1)
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfProsjekts()) { $index = $this->numberOfProsjekts() - 1; }
+      array_splice($this->prosjekts, $this->indexOfProsjekt($aProsjekt), 1);
+      array_splice($this->prosjekts, $index, 0, array($aProsjekt));
+      $wasAdded = true;
+    } 
+    else 
+    {
+      $wasAdded = $this->addProsjektAt($aProsjekt, $index);
+    }
+    return $wasAdded;
+  }
+
+  public static function minimumNumberOfStemmes()
+  {
+    return 0;
+  }
+
+  public function addStemmeVia($aStemmeID, $aEpost, $aStemmeverdi, $aStemmetidspunkt, $aProsjekt)
+  {
+    return new Stemme($aStemmeID, $aEpost, $aStemmeverdi, $aStemmetidspunkt, $this, $aProsjekt);
+  }
+
+  public function addStemme($aStemme)
+  {
+    $wasAdded = false;
+    if ($this->indexOfStemme($aStemme) !== -1) { return false; }
+    $existingArrangement = $aStemme->getArrangement();
+    $isNewArrangement = $existingArrangement != null && $this !== $existingArrangement;
+    if ($isNewArrangement)
+    {
+      $aStemme->setArrangement($this);
+    }
+    else
+    {
+      $this->stemmes[] = $aStemme;
+    }
+    $wasAdded = true;
+    return $wasAdded;
+  }
+
+  public function removeStemme($aStemme)
+  {
+    $wasRemoved = false;
+    //Unable to remove aStemme, as it must always have a arrangement
+    if ($this !== $aStemme->getArrangement())
+    {
+      unset($this->stemmes[$this->indexOfStemme($aStemme)]);
+      $this->stemmes = array_values($this->stemmes);
+      $wasRemoved = true;
+    }
+    return $wasRemoved;
+  }
+
+  public function addStemmeAt($aStemme, $index)
+  {  
+    $wasAdded = false;
+    if($this->addStemme($aStemme))
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfStemmes()) { $index = $this->numberOfStemmes() - 1; }
+      array_splice($this->stemmes, $this->indexOfStemme($aStemme), 1);
+      array_splice($this->stemmes, $index, 0, array($aStemme));
+      $wasAdded = true;
+    }
+    return $wasAdded;
+  }
+
+  public function addOrMoveStemmeAt($aStemme, $index)
+  {
+    $wasAdded = false;
+    if($this->indexOfStemme($aStemme) !== -1)
+    {
+      if($index < 0 ) { $index = 0; }
+      if($index > $this->numberOfStemmes()) { $index = $this->numberOfStemmes() - 1; }
+      array_splice($this->stemmes, $this->indexOfStemme($aStemme), 1);
+      array_splice($this->stemmes, $index, 0, array($aStemme));
+      $wasAdded = true;
+    } 
+    else 
+    {
+      $wasAdded = $this->addStemmeAt($aStemme, $index);
+    }
+    return $wasAdded;
+  }
+
+  public function equals($compareTo)
+  {
+    return $this == $compareTo;
+  }
+
+  public function delete()
+  {
+    foreach ($this->prosjekts as $aProsjekt)
+    {
+      $aProsjekt->delete();
+    }
+    foreach ($this->stemmes as $aStemme)
+    {
+      $aStemme->delete();
+    }
+  }
+
+}

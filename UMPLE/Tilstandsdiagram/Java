@@ -1,0 +1,345 @@
+#Java-koden av tilstandsdiagrammet:
+
+//%% NEW FILE EXPOApplikasjon BEGINS HERE %%
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+
+
+// line 2 "model.ump"
+public class EXPOApplikasjon
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //EXPOApplikasjon State Machines
+  public enum Frontpage { Welcome, Login, LoggedIn, LoginFailed, Register }
+  private Frontpage frontpage;
+  public enum Feedback { ChooseProject, Rating, Rated, RatingFailed }
+  private Feedback feedback;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public EXPOApplikasjon()
+  {
+    setFrontpage(Frontpage.Welcome);
+    setFeedback(Feedback.ChooseProject);
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public String getFrontpageFullName()
+  {
+    String answer = frontpage.toString();
+    return answer;
+  }
+
+  public String getFeedbackFullName()
+  {
+    String answer = feedback.toString();
+    return answer;
+  }
+
+  public Frontpage getFrontpage()
+  {
+    return frontpage;
+  }
+
+  public Feedback getFeedback()
+  {
+    return feedback;
+  }
+
+  public boolean loginOption()
+  {
+    boolean wasEventProcessed = false;
+    
+    Frontpage aFrontpage = frontpage;
+    switch (aFrontpage)
+    {
+      case Welcome:
+        setFrontpage(Frontpage.Login);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean registerOption()
+  {
+    boolean wasEventProcessed = false;
+    
+    Frontpage aFrontpage = frontpage;
+    switch (aFrontpage)
+    {
+      case Welcome:
+        setFrontpage(Frontpage.Register);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean userFound()
+  {
+    boolean wasEventProcessed = false;
+    
+    Frontpage aFrontpage = frontpage;
+    switch (aFrontpage)
+    {
+      case Login:
+        setFrontpage(Frontpage.LoggedIn);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean userNotFound()
+  {
+    boolean wasEventProcessed = false;
+    
+    Frontpage aFrontpage = frontpage;
+    switch (aFrontpage)
+    {
+      case Login:
+        setFrontpage(Frontpage.LoginFailed);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private boolean __autotransition3789__()
+  {
+    boolean wasEventProcessed = false;
+    
+    Frontpage aFrontpage = frontpage;
+    switch (aFrontpage)
+    {
+      case LoginFailed:
+        setFrontpage(Frontpage.Register);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean registered()
+  {
+    boolean wasEventProcessed = false;
+    
+    Frontpage aFrontpage = frontpage;
+    switch (aFrontpage)
+    {
+      case Register:
+        exitFrontpage();
+        setFrontpage(Frontpage.Login);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean userAlreadyExists()
+  {
+    boolean wasEventProcessed = false;
+    
+    Frontpage aFrontpage = frontpage;
+    switch (aFrontpage)
+    {
+      case Register:
+        exitFrontpage();
+        setFrontpage(Frontpage.Register);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean projectIsChosen()
+  {
+    boolean wasEventProcessed = false;
+    
+    Feedback aFeedback = feedback;
+    switch (aFeedback)
+    {
+      case ChooseProject:
+        setFeedback(Feedback.Rating);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean ratingCompleted()
+  {
+    boolean wasEventProcessed = false;
+    
+    Feedback aFeedback = feedback;
+    switch (aFeedback)
+    {
+      case Rating:
+        exitFeedback();
+        setFeedback(Feedback.Rated);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean ratingFailed()
+  {
+    boolean wasEventProcessed = false;
+    
+    Feedback aFeedback = feedback;
+    switch (aFeedback)
+    {
+      case Rating:
+        exitFeedback();
+        setFeedback(Feedback.RatingFailed);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private boolean __autotransition3790__()
+  {
+    boolean wasEventProcessed = false;
+    
+    Feedback aFeedback = feedback;
+    switch (aFeedback)
+    {
+      case RatingFailed:
+        setFeedback(Feedback.ChooseProject);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private void exitFrontpage()
+  {
+    switch(frontpage)
+    {
+      case Register:
+        // line 28 "model.ump"
+        registerUserInfo();
+        break;
+    }
+  }
+
+  private void setFrontpage(Frontpage aFrontpage)
+  {
+    frontpage = aFrontpage;
+
+    // entry actions and do activities
+    switch(frontpage)
+    {
+      case Welcome:
+        // line 6 "model.ump"
+        chooseOption();
+        break;
+      case Login:
+        // line 12 "model.ump"
+        logInWithUserInfo();
+        break;
+      case LoggedIn:
+        // line 18 "model.ump"
+        showAllProjects()
+        break;
+      case LoginFailed:
+        // line 22 "model.ump"
+        showErrorMessage();
+        __autotransition3789__();
+        break;
+      case Register:
+        // line 27 "model.ump"
+        enterUserInfo();
+        break;
+    }
+  }
+
+  private void exitFeedback()
+  {
+    switch(feedback)
+    {
+      case Rating:
+        // line 43 "model.ump"
+        registerRating();
+        break;
+    }
+  }
+
+  private void setFeedback(Feedback aFeedback)
+  {
+    feedback = aFeedback;
+
+    // entry actions and do activities
+    switch(feedback)
+    {
+      case ChooseProject:
+        // line 37 "model.ump"
+        chooseProject();
+        break;
+      case Rating:
+        // line 42 "model.ump"
+        chooseRating();
+        break;
+      case Rated:
+        // line 49 "model.ump"
+        showRating();
+        break;
+      case RatingFailed:
+        // line 53 "model.ump"
+        showErrorMessage();
+        __autotransition3790__();
+        break;
+    }
+  }
+
+  public void delete()
+  {}
+
+}
