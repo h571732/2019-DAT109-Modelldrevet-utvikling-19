@@ -1,0 +1,1433 @@
+#Java koden for domenemodellen:
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+
+import java.util.*;
+
+// line 32 "model.ump"
+public class Kategori
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Kategori Attributes
+  private int kID;
+  private knavn antall;
+
+  //Kategori Associations
+  private List<Studie> studies;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public Kategori(int aKID, knavn aAntall)
+  {
+    kID = aKID;
+    antall = aAntall;
+    studies = new ArrayList<Studie>();
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setKID(int aKID)
+  {
+    boolean wasSet = false;
+    kID = aKID;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setAntall(knavn aAntall)
+  {
+    boolean wasSet = false;
+    antall = aAntall;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getKID()
+  {
+    return kID;
+  }
+
+  public knavn getAntall()
+  {
+    return antall;
+  }
+  /* Code from template association_GetMany */
+  public Studie getStudy(int index)
+  {
+    Studie aStudy = studies.get(index);
+    return aStudy;
+  }
+
+  public List<Studie> getStudies()
+  {
+    List<Studie> newStudies = Collections.unmodifiableList(studies);
+    return newStudies;
+  }
+
+  public int numberOfStudies()
+  {
+    int number = studies.size();
+    return number;
+  }
+
+  public boolean hasStudies()
+  {
+    boolean has = studies.size() > 0;
+    return has;
+  }
+
+  public int indexOfStudy(Studie aStudy)
+  {
+    int index = studies.indexOf(aStudy);
+    return index;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfStudies()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Studie addStudy(int aStudID, String aStudnavn, String aStudeskrivelse)
+  {
+    return new Studie(aStudID, aStudnavn, aStudeskrivelse, this);
+  }
+
+  public boolean addStudy(Studie aStudy)
+  {
+    boolean wasAdded = false;
+    if (studies.contains(aStudy)) { return false; }
+    Kategori existingKategori = aStudy.getKategori();
+    boolean isNewKategori = existingKategori != null && !this.equals(existingKategori);
+    if (isNewKategori)
+    {
+      aStudy.setKategori(this);
+    }
+    else
+    {
+      studies.add(aStudy);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeStudy(Studie aStudy)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aStudy, as it must always have a kategori
+    if (!this.equals(aStudy.getKategori()))
+    {
+      studies.remove(aStudy);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addStudyAt(Studie aStudy, int index)
+  {  
+    boolean wasAdded = false;
+    if(addStudy(aStudy))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfStudies()) { index = numberOfStudies() - 1; }
+      studies.remove(aStudy);
+      studies.add(index, aStudy);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveStudyAt(Studie aStudy, int index)
+  {
+    boolean wasAdded = false;
+    if(studies.contains(aStudy))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfStudies()) { index = numberOfStudies() - 1; }
+      studies.remove(aStudy);
+      studies.add(index, aStudy);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addStudyAt(aStudy, index);
+    }
+    return wasAdded;
+  }
+
+  public void delete()
+  {
+    for(int i=studies.size(); i > 0; i--)
+    {
+      Studie aStudy = studies.get(i - 1);
+      aStudy.delete();
+    }
+  }
+
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "kID" + ":" + getKID()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "antall" + "=" + (getAntall() != null ? !getAntall().equals(this)  ? getAntall().toString().replaceAll("  ","    ") : "this" : "null");
+  }
+}
+
+
+
+//%% NEW FILE Stemme BEGINS HERE %%
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+
+import java.sql.Time;
+
+// line 12 "model.ump"
+public class Stemme
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Stemme Attributes
+  private int sID;
+  private String epost;
+  private int sverdi;
+  private Time stidspunkt;
+
+  //Stemme Associations
+  private Arrangement arrangement;
+  private Prosjekt prosjekt;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public Stemme(int aSID, String aEpost, int aSverdi, Time aStidspunkt, Arrangement aArrangement, Prosjekt aProsjekt)
+  {
+    sID = aSID;
+    epost = aEpost;
+    sverdi = aSverdi;
+    stidspunkt = aStidspunkt;
+    boolean didAddArrangement = setArrangement(aArrangement);
+    if (!didAddArrangement)
+    {
+      throw new RuntimeException("Unable to create stemme due to arrangement");
+    }
+    boolean didAddProsjekt = setProsjekt(aProsjekt);
+    if (!didAddProsjekt)
+    {
+      throw new RuntimeException("Unable to create stemme due to prosjekt");
+    }
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setSID(int aSID)
+  {
+    boolean wasSet = false;
+    sID = aSID;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setEpost(String aEpost)
+  {
+    boolean wasSet = false;
+    epost = aEpost;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setSverdi(int aSverdi)
+  {
+    boolean wasSet = false;
+    sverdi = aSverdi;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setStidspunkt(Time aStidspunkt)
+  {
+    boolean wasSet = false;
+    stidspunkt = aStidspunkt;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getSID()
+  {
+    return sID;
+  }
+
+  public String getEpost()
+  {
+    return epost;
+  }
+
+  public int getSverdi()
+  {
+    return sverdi;
+  }
+
+  public Time getStidspunkt()
+  {
+    return stidspunkt;
+  }
+  /* Code from template association_GetOne */
+  public Arrangement getArrangement()
+  {
+    return arrangement;
+  }
+  /* Code from template association_GetOne */
+  public Prosjekt getProsjekt()
+  {
+    return prosjekt;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setArrangement(Arrangement aArrangement)
+  {
+    boolean wasSet = false;
+    if (aArrangement == null)
+    {
+      return wasSet;
+    }
+
+    Arrangement existingArrangement = arrangement;
+    arrangement = aArrangement;
+    if (existingArrangement != null && !existingArrangement.equals(aArrangement))
+    {
+      existingArrangement.removeStemme(this);
+    }
+    arrangement.addStemme(this);
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setProsjekt(Prosjekt aProsjekt)
+  {
+    boolean wasSet = false;
+    if (aProsjekt == null)
+    {
+      return wasSet;
+    }
+
+    Prosjekt existingProsjekt = prosjekt;
+    prosjekt = aProsjekt;
+    if (existingProsjekt != null && !existingProsjekt.equals(aProsjekt))
+    {
+      existingProsjekt.removeStemme(this);
+    }
+    prosjekt.addStemme(this);
+    wasSet = true;
+    return wasSet;
+  }
+
+  public void delete()
+  {
+    Arrangement placeholderArrangement = arrangement;
+    this.arrangement = null;
+    if(placeholderArrangement != null)
+    {
+      placeholderArrangement.removeStemme(this);
+    }
+    Prosjekt placeholderProsjekt = prosjekt;
+    this.prosjekt = null;
+    if(placeholderProsjekt != null)
+    {
+      placeholderProsjekt.removeStemme(this);
+    }
+  }
+
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "sID" + ":" + getSID()+ "," +
+            "epost" + ":" + getEpost()+ "," +
+            "sverdi" + ":" + getSverdi()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "stidspunkt" + "=" + (getStidspunkt() != null ? !getStidspunkt().equals(this)  ? getStidspunkt().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "arrangement = "+(getArrangement()!=null?Integer.toHexString(System.identityHashCode(getArrangement())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "prosjekt = "+(getProsjekt()!=null?Integer.toHexString(System.identityHashCode(getProsjekt())):"null");
+  }
+}
+
+
+
+//%% NEW FILE Studie BEGINS HERE %%
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+
+import java.util.*;
+
+// line 38 "model.ump"
+public class Studie
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Studie Attributes
+  private int studID;
+  private String studnavn;
+  private String studeskrivelse;
+
+  //Studie Associations
+  private Kategori kategori;
+  private List<Prosjekt> prosjekts;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public Studie(int aStudID, String aStudnavn, String aStudeskrivelse, Kategori aKategori)
+  {
+    studID = aStudID;
+    studnavn = aStudnavn;
+    studeskrivelse = aStudeskrivelse;
+    boolean didAddKategori = setKategori(aKategori);
+    if (!didAddKategori)
+    {
+      throw new RuntimeException("Unable to create study due to kategori");
+    }
+    prosjekts = new ArrayList<Prosjekt>();
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setStudID(int aStudID)
+  {
+    boolean wasSet = false;
+    studID = aStudID;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setStudnavn(String aStudnavn)
+  {
+    boolean wasSet = false;
+    studnavn = aStudnavn;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setStudeskrivelse(String aStudeskrivelse)
+  {
+    boolean wasSet = false;
+    studeskrivelse = aStudeskrivelse;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getStudID()
+  {
+    return studID;
+  }
+
+  public String getStudnavn()
+  {
+    return studnavn;
+  }
+
+  public String getStudeskrivelse()
+  {
+    return studeskrivelse;
+  }
+  /* Code from template association_GetOne */
+  public Kategori getKategori()
+  {
+    return kategori;
+  }
+  /* Code from template association_GetMany */
+  public Prosjekt getProsjekt(int index)
+  {
+    Prosjekt aProsjekt = prosjekts.get(index);
+    return aProsjekt;
+  }
+
+  public List<Prosjekt> getProsjekts()
+  {
+    List<Prosjekt> newProsjekts = Collections.unmodifiableList(prosjekts);
+    return newProsjekts;
+  }
+
+  public int numberOfProsjekts()
+  {
+    int number = prosjekts.size();
+    return number;
+  }
+
+  public boolean hasProsjekts()
+  {
+    boolean has = prosjekts.size() > 0;
+    return has;
+  }
+
+  public int indexOfProsjekt(Prosjekt aProsjekt)
+  {
+    int index = prosjekts.indexOf(aProsjekt);
+    return index;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setKategori(Kategori aKategori)
+  {
+    boolean wasSet = false;
+    if (aKategori == null)
+    {
+      return wasSet;
+    }
+
+    Kategori existingKategori = kategori;
+    kategori = aKategori;
+    if (existingKategori != null && !existingKategori.equals(aKategori))
+    {
+      existingKategori.removeStudy(this);
+    }
+    kategori.addStudy(this);
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfProsjekts()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Prosjekt addProsjekt(int aProsjektID, String aProsjektnavn, String aProsjektbeskrivelse, Arrangement aArrangement, Bedrift aBedrift)
+  {
+    return new Prosjekt(aProsjektID, aProsjektnavn, aProsjektbeskrivelse, aArrangement, aBedrift, this);
+  }
+
+  public boolean addProsjekt(Prosjekt aProsjekt)
+  {
+    boolean wasAdded = false;
+    if (prosjekts.contains(aProsjekt)) { return false; }
+    Studie existingStudie = aProsjekt.getStudie();
+    boolean isNewStudie = existingStudie != null && !this.equals(existingStudie);
+    if (isNewStudie)
+    {
+      aProsjekt.setStudie(this);
+    }
+    else
+    {
+      prosjekts.add(aProsjekt);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeProsjekt(Prosjekt aProsjekt)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aProsjekt, as it must always have a studie
+    if (!this.equals(aProsjekt.getStudie()))
+    {
+      prosjekts.remove(aProsjekt);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addProsjektAt(Prosjekt aProsjekt, int index)
+  {  
+    boolean wasAdded = false;
+    if(addProsjekt(aProsjekt))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfProsjekts()) { index = numberOfProsjekts() - 1; }
+      prosjekts.remove(aProsjekt);
+      prosjekts.add(index, aProsjekt);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveProsjektAt(Prosjekt aProsjekt, int index)
+  {
+    boolean wasAdded = false;
+    if(prosjekts.contains(aProsjekt))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfProsjekts()) { index = numberOfProsjekts() - 1; }
+      prosjekts.remove(aProsjekt);
+      prosjekts.add(index, aProsjekt);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addProsjektAt(aProsjekt, index);
+    }
+    return wasAdded;
+  }
+
+  public void delete()
+  {
+    Kategori placeholderKategori = kategori;
+    this.kategori = null;
+    if(placeholderKategori != null)
+    {
+      placeholderKategori.removeStudy(this);
+    }
+    for(int i=prosjekts.size(); i > 0; i--)
+    {
+      Prosjekt aProsjekt = prosjekts.get(i - 1);
+      aProsjekt.delete();
+    }
+  }
+
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "studID" + ":" + getStudID()+ "," +
+            "studnavn" + ":" + getStudnavn()+ "," +
+            "studeskrivelse" + ":" + getStudeskrivelse()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "kategori = "+(getKategori()!=null?Integer.toHexString(System.identityHashCode(getKategori())):"null");
+  }
+}
+
+
+
+//%% NEW FILE Bedrift BEGINS HERE %%
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+
+import java.util.*;
+
+// line 26 "model.ump"
+public class Bedrift
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Bedrift Attributes
+  private int bID;
+  private String bnavn;
+  private String bbeskrivelse;
+
+  //Bedrift Associations
+  private List<Prosjekt> prosjekts;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public Bedrift(int aBID, String aBnavn, String aBbeskrivelse)
+  {
+    bID = aBID;
+    bnavn = aBnavn;
+    bbeskrivelse = aBbeskrivelse;
+    prosjekts = new ArrayList<Prosjekt>();
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setBID(int aBID)
+  {
+    boolean wasSet = false;
+    bID = aBID;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setBnavn(String aBnavn)
+  {
+    boolean wasSet = false;
+    bnavn = aBnavn;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setBbeskrivelse(String aBbeskrivelse)
+  {
+    boolean wasSet = false;
+    bbeskrivelse = aBbeskrivelse;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getBID()
+  {
+    return bID;
+  }
+
+  public String getBnavn()
+  {
+    return bnavn;
+  }
+
+  public String getBbeskrivelse()
+  {
+    return bbeskrivelse;
+  }
+  /* Code from template association_GetMany */
+  public Prosjekt getProsjekt(int index)
+  {
+    Prosjekt aProsjekt = prosjekts.get(index);
+    return aProsjekt;
+  }
+
+  public List<Prosjekt> getProsjekts()
+  {
+    List<Prosjekt> newProsjekts = Collections.unmodifiableList(prosjekts);
+    return newProsjekts;
+  }
+
+  public int numberOfProsjekts()
+  {
+    int number = prosjekts.size();
+    return number;
+  }
+
+  public boolean hasProsjekts()
+  {
+    boolean has = prosjekts.size() > 0;
+    return has;
+  }
+
+  public int indexOfProsjekt(Prosjekt aProsjekt)
+  {
+    int index = prosjekts.indexOf(aProsjekt);
+    return index;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfProsjekts()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Prosjekt addProsjekt(int aProsjektID, String aProsjektnavn, String aProsjektbeskrivelse, Arrangement aArrangement, Studie aStudie)
+  {
+    return new Prosjekt(aProsjektID, aProsjektnavn, aProsjektbeskrivelse, aArrangement, this, aStudie);
+  }
+
+  public boolean addProsjekt(Prosjekt aProsjekt)
+  {
+    boolean wasAdded = false;
+    if (prosjekts.contains(aProsjekt)) { return false; }
+    Bedrift existingBedrift = aProsjekt.getBedrift();
+    boolean isNewBedrift = existingBedrift != null && !this.equals(existingBedrift);
+    if (isNewBedrift)
+    {
+      aProsjekt.setBedrift(this);
+    }
+    else
+    {
+      prosjekts.add(aProsjekt);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeProsjekt(Prosjekt aProsjekt)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aProsjekt, as it must always have a bedrift
+    if (!this.equals(aProsjekt.getBedrift()))
+    {
+      prosjekts.remove(aProsjekt);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addProsjektAt(Prosjekt aProsjekt, int index)
+  {  
+    boolean wasAdded = false;
+    if(addProsjekt(aProsjekt))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfProsjekts()) { index = numberOfProsjekts() - 1; }
+      prosjekts.remove(aProsjekt);
+      prosjekts.add(index, aProsjekt);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveProsjektAt(Prosjekt aProsjekt, int index)
+  {
+    boolean wasAdded = false;
+    if(prosjekts.contains(aProsjekt))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfProsjekts()) { index = numberOfProsjekts() - 1; }
+      prosjekts.remove(aProsjekt);
+      prosjekts.add(index, aProsjekt);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addProsjektAt(aProsjekt, index);
+    }
+    return wasAdded;
+  }
+
+  public void delete()
+  {
+    for(int i=prosjekts.size(); i > 0; i--)
+    {
+      Prosjekt aProsjekt = prosjekts.get(i - 1);
+      aProsjekt.delete();
+    }
+  }
+
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "bID" + ":" + getBID()+ "," +
+            "bnavn" + ":" + getBnavn()+ "," +
+            "bbeskrivelse" + ":" + getBbeskrivelse()+ "]";
+  }
+}
+
+
+
+//%% NEW FILE Prosjekt BEGINS HERE %%
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+
+import java.util.*;
+import java.sql.Time;
+
+// line 2 "model.ump"
+public class Prosjekt
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Prosjekt Attributes
+  private int prosjektID;
+  private String prosjektnavn;
+  private String prosjektbeskrivelse;
+
+  //Prosjekt Associations
+  private Arrangement arrangement;
+  private List<Stemme> stemmes;
+  private Bedrift bedrift;
+  private Studie studie;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public Prosjekt(int aProsjektID, String aProsjektnavn, String aProsjektbeskrivelse, Arrangement aArrangement, Bedrift aBedrift, Studie aStudie)
+  {
+    prosjektID = aProsjektID;
+    prosjektnavn = aProsjektnavn;
+    prosjektbeskrivelse = aProsjektbeskrivelse;
+    boolean didAddArrangement = setArrangement(aArrangement);
+    if (!didAddArrangement)
+    {
+      throw new RuntimeException("Unable to create prosjekt due to arrangement");
+    }
+    stemmes = new ArrayList<Stemme>();
+    boolean didAddBedrift = setBedrift(aBedrift);
+    if (!didAddBedrift)
+    {
+      throw new RuntimeException("Unable to create prosjekt due to bedrift");
+    }
+    boolean didAddStudie = setStudie(aStudie);
+    if (!didAddStudie)
+    {
+      throw new RuntimeException("Unable to create prosjekt due to studie");
+    }
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setProsjektID(int aProsjektID)
+  {
+    boolean wasSet = false;
+    prosjektID = aProsjektID;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setProsjektnavn(String aProsjektnavn)
+  {
+    boolean wasSet = false;
+    prosjektnavn = aProsjektnavn;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setProsjektbeskrivelse(String aProsjektbeskrivelse)
+  {
+    boolean wasSet = false;
+    prosjektbeskrivelse = aProsjektbeskrivelse;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getProsjektID()
+  {
+    return prosjektID;
+  }
+
+  public String getProsjektnavn()
+  {
+    return prosjektnavn;
+  }
+
+  public String getProsjektbeskrivelse()
+  {
+    return prosjektbeskrivelse;
+  }
+  /* Code from template association_GetOne */
+  public Arrangement getArrangement()
+  {
+    return arrangement;
+  }
+  /* Code from template association_GetMany */
+  public Stemme getStemme(int index)
+  {
+    Stemme aStemme = stemmes.get(index);
+    return aStemme;
+  }
+
+  public List<Stemme> getStemmes()
+  {
+    List<Stemme> newStemmes = Collections.unmodifiableList(stemmes);
+    return newStemmes;
+  }
+
+  public int numberOfStemmes()
+  {
+    int number = stemmes.size();
+    return number;
+  }
+
+  public boolean hasStemmes()
+  {
+    boolean has = stemmes.size() > 0;
+    return has;
+  }
+
+  public int indexOfStemme(Stemme aStemme)
+  {
+    int index = stemmes.indexOf(aStemme);
+    return index;
+  }
+  /* Code from template association_GetOne */
+  public Bedrift getBedrift()
+  {
+    return bedrift;
+  }
+  /* Code from template association_GetOne */
+  public Studie getStudie()
+  {
+    return studie;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setArrangement(Arrangement aArrangement)
+  {
+    boolean wasSet = false;
+    if (aArrangement == null)
+    {
+      return wasSet;
+    }
+
+    Arrangement existingArrangement = arrangement;
+    arrangement = aArrangement;
+    if (existingArrangement != null && !existingArrangement.equals(aArrangement))
+    {
+      existingArrangement.removeProsjekt(this);
+    }
+    arrangement.addProsjekt(this);
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfStemmes()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Stemme addStemme(int aSID, String aEpost, int aSverdi, Time aStidspunkt, Arrangement aArrangement)
+  {
+    return new Stemme(aSID, aEpost, aSverdi, aStidspunkt, aArrangement, this);
+  }
+
+  public boolean addStemme(Stemme aStemme)
+  {
+    boolean wasAdded = false;
+    if (stemmes.contains(aStemme)) { return false; }
+    Prosjekt existingProsjekt = aStemme.getProsjekt();
+    boolean isNewProsjekt = existingProsjekt != null && !this.equals(existingProsjekt);
+    if (isNewProsjekt)
+    {
+      aStemme.setProsjekt(this);
+    }
+    else
+    {
+      stemmes.add(aStemme);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeStemme(Stemme aStemme)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aStemme, as it must always have a prosjekt
+    if (!this.equals(aStemme.getProsjekt()))
+    {
+      stemmes.remove(aStemme);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addStemmeAt(Stemme aStemme, int index)
+  {  
+    boolean wasAdded = false;
+    if(addStemme(aStemme))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfStemmes()) { index = numberOfStemmes() - 1; }
+      stemmes.remove(aStemme);
+      stemmes.add(index, aStemme);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveStemmeAt(Stemme aStemme, int index)
+  {
+    boolean wasAdded = false;
+    if(stemmes.contains(aStemme))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfStemmes()) { index = numberOfStemmes() - 1; }
+      stemmes.remove(aStemme);
+      stemmes.add(index, aStemme);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addStemmeAt(aStemme, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setBedrift(Bedrift aBedrift)
+  {
+    boolean wasSet = false;
+    if (aBedrift == null)
+    {
+      return wasSet;
+    }
+
+    Bedrift existingBedrift = bedrift;
+    bedrift = aBedrift;
+    if (existingBedrift != null && !existingBedrift.equals(aBedrift))
+    {
+      existingBedrift.removeProsjekt(this);
+    }
+    bedrift.addProsjekt(this);
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setStudie(Studie aStudie)
+  {
+    boolean wasSet = false;
+    if (aStudie == null)
+    {
+      return wasSet;
+    }
+
+    Studie existingStudie = studie;
+    studie = aStudie;
+    if (existingStudie != null && !existingStudie.equals(aStudie))
+    {
+      existingStudie.removeProsjekt(this);
+    }
+    studie.addProsjekt(this);
+    wasSet = true;
+    return wasSet;
+  }
+
+  public void delete()
+  {
+    Arrangement placeholderArrangement = arrangement;
+    this.arrangement = null;
+    if(placeholderArrangement != null)
+    {
+      placeholderArrangement.removeProsjekt(this);
+    }
+    for(int i=stemmes.size(); i > 0; i--)
+    {
+      Stemme aStemme = stemmes.get(i - 1);
+      aStemme.delete();
+    }
+    Bedrift placeholderBedrift = bedrift;
+    this.bedrift = null;
+    if(placeholderBedrift != null)
+    {
+      placeholderBedrift.removeProsjekt(this);
+    }
+    Studie placeholderStudie = studie;
+    this.studie = null;
+    if(placeholderStudie != null)
+    {
+      placeholderStudie.removeProsjekt(this);
+    }
+  }
+
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "prosjektID" + ":" + getProsjektID()+ "," +
+            "prosjektnavn" + ":" + getProsjektnavn()+ "," +
+            "prosjektbeskrivelse" + ":" + getProsjektbeskrivelse()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "arrangement = "+(getArrangement()!=null?Integer.toHexString(System.identityHashCode(getArrangement())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "bedrift = "+(getBedrift()!=null?Integer.toHexString(System.identityHashCode(getBedrift())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "studie = "+(getStudie()!=null?Integer.toHexString(System.identityHashCode(getStudie())):"null");
+  }
+}
+
+
+
+//%% NEW FILE Arrangement BEGINS HERE %%
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+
+import java.util.*;
+import java.sql.Time;
+
+// line 20 "model.ump"
+public class Arrangement
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Arrangement Attributes
+  private int aID;
+  private String anavn;
+  private String abeskrivelse;
+
+  //Arrangement Associations
+  private List<Prosjekt> prosjekts;
+  private List<Stemme> stemmes;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public Arrangement(int aAID, String aAnavn, String aAbeskrivelse)
+  {
+    aID = aAID;
+    anavn = aAnavn;
+    abeskrivelse = aAbeskrivelse;
+    prosjekts = new ArrayList<Prosjekt>();
+    stemmes = new ArrayList<Stemme>();
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setAID(int aAID)
+  {
+    boolean wasSet = false;
+    aID = aAID;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setAnavn(String aAnavn)
+  {
+    boolean wasSet = false;
+    anavn = aAnavn;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setAbeskrivelse(String aAbeskrivelse)
+  {
+    boolean wasSet = false;
+    abeskrivelse = aAbeskrivelse;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getAID()
+  {
+    return aID;
+  }
+
+  public String getAnavn()
+  {
+    return anavn;
+  }
+
+  public String getAbeskrivelse()
+  {
+    return abeskrivelse;
+  }
+  /* Code from template association_GetMany */
+  public Prosjekt getProsjekt(int index)
+  {
+    Prosjekt aProsjekt = prosjekts.get(index);
+    return aProsjekt;
+  }
+
+  public List<Prosjekt> getProsjekts()
+  {
+    List<Prosjekt> newProsjekts = Collections.unmodifiableList(prosjekts);
+    return newProsjekts;
+  }
+
+  public int numberOfProsjekts()
+  {
+    int number = prosjekts.size();
+    return number;
+  }
+
+  public boolean hasProsjekts()
+  {
+    boolean has = prosjekts.size() > 0;
+    return has;
+  }
+
+  public int indexOfProsjekt(Prosjekt aProsjekt)
+  {
+    int index = prosjekts.indexOf(aProsjekt);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public Stemme getStemme(int index)
+  {
+    Stemme aStemme = stemmes.get(index);
+    return aStemme;
+  }
+
+  public List<Stemme> getStemmes()
+  {
+    List<Stemme> newStemmes = Collections.unmodifiableList(stemmes);
+    return newStemmes;
+  }
+
+  public int numberOfStemmes()
+  {
+    int number = stemmes.size();
+    return number;
+  }
+
+  public boolean hasStemmes()
+  {
+    boolean has = stemmes.size() > 0;
+    return has;
+  }
+
+  public int indexOfStemme(Stemme aStemme)
+  {
+    int index = stemmes.indexOf(aStemme);
+    return index;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfProsjekts()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Prosjekt addProsjekt(int aProsjektID, String aProsjektnavn, String aProsjektbeskrivelse, Bedrift aBedrift, Studie aStudie)
+  {
+    return new Prosjekt(aProsjektID, aProsjektnavn, aProsjektbeskrivelse, this, aBedrift, aStudie);
+  }
+
+  public boolean addProsjekt(Prosjekt aProsjekt)
+  {
+    boolean wasAdded = false;
+    if (prosjekts.contains(aProsjekt)) { return false; }
+    Arrangement existingArrangement = aProsjekt.getArrangement();
+    boolean isNewArrangement = existingArrangement != null && !this.equals(existingArrangement);
+    if (isNewArrangement)
+    {
+      aProsjekt.setArrangement(this);
+    }
+    else
+    {
+      prosjekts.add(aProsjekt);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeProsjekt(Prosjekt aProsjekt)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aProsjekt, as it must always have a arrangement
+    if (!this.equals(aProsjekt.getArrangement()))
+    {
+      prosjekts.remove(aProsjekt);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addProsjektAt(Prosjekt aProsjekt, int index)
+  {  
+    boolean wasAdded = false;
+    if(addProsjekt(aProsjekt))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfProsjekts()) { index = numberOfProsjekts() - 1; }
+      prosjekts.remove(aProsjekt);
+      prosjekts.add(index, aProsjekt);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveProsjektAt(Prosjekt aProsjekt, int index)
+  {
+    boolean wasAdded = false;
+    if(prosjekts.contains(aProsjekt))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfProsjekts()) { index = numberOfProsjekts() - 1; }
+      prosjekts.remove(aProsjekt);
+      prosjekts.add(index, aProsjekt);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addProsjektAt(aProsjekt, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfStemmes()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Stemme addStemme(int aSID, String aEpost, int aSverdi, Time aStidspunkt, Prosjekt aProsjekt)
+  {
+    return new Stemme(aSID, aEpost, aSverdi, aStidspunkt, this, aProsjekt);
+  }
+
+  public boolean addStemme(Stemme aStemme)
+  {
+    boolean wasAdded = false;
+    if (stemmes.contains(aStemme)) { return false; }
+    Arrangement existingArrangement = aStemme.getArrangement();
+    boolean isNewArrangement = existingArrangement != null && !this.equals(existingArrangement);
+    if (isNewArrangement)
+    {
+      aStemme.setArrangement(this);
+    }
+    else
+    {
+      stemmes.add(aStemme);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeStemme(Stemme aStemme)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aStemme, as it must always have a arrangement
+    if (!this.equals(aStemme.getArrangement()))
+    {
+      stemmes.remove(aStemme);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addStemmeAt(Stemme aStemme, int index)
+  {  
+    boolean wasAdded = false;
+    if(addStemme(aStemme))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfStemmes()) { index = numberOfStemmes() - 1; }
+      stemmes.remove(aStemme);
+      stemmes.add(index, aStemme);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveStemmeAt(Stemme aStemme, int index)
+  {
+    boolean wasAdded = false;
+    if(stemmes.contains(aStemme))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfStemmes()) { index = numberOfStemmes() - 1; }
+      stemmes.remove(aStemme);
+      stemmes.add(index, aStemme);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addStemmeAt(aStemme, index);
+    }
+    return wasAdded;
+  }
+
+  public void delete()
+  {
+    for(int i=prosjekts.size(); i > 0; i--)
+    {
+      Prosjekt aProsjekt = prosjekts.get(i - 1);
+      aProsjekt.delete();
+    }
+    for(int i=stemmes.size(); i > 0; i--)
+    {
+      Stemme aStemme = stemmes.get(i - 1);
+      aStemme.delete();
+    }
+  }
+
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "aID" + ":" + getAID()+ "," +
+            "anavn" + ":" + getAnavn()+ "," +
+            "abeskrivelse" + ":" + getAbeskrivelse()+ "]";
+  }
+}
