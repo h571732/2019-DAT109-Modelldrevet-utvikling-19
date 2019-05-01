@@ -1,0 +1,297 @@
+#PHP-Koden av tilstandsdiagrammet:
+
+//%% NEW FILE EXPOApplikasjon BEGINS HERE %%
+
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4448.81a70243a modeling language!*/
+
+class EXPOApplikasjon
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //EXPOApplikasjon State Machines
+  private static $FrontpageWelcome = 1;
+  private static $FrontpageLogin = 2;
+  private static $FrontpageLoggedIn = 3;
+  private static $FrontpageLoginFailed = 4;
+  private static $FrontpageRegister = 5;
+  private $Frontpage;
+
+  private static $FeedbackChooseProject = 1;
+  private static $FeedbackRating = 2;
+  private static $FeedbackRated = 3;
+  private static $FeedbackRatingFailed = 4;
+  private $Feedback;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public function __construct()
+  {
+    $this->setFrontpage(self::$FrontpageWelcome);
+    $this->setFeedback(self::$FeedbackChooseProject);
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public function getFrontpageFullName()
+  {
+    $answer = $this->getFrontpage();
+    return $answer;
+  }
+
+  public function getFeedbackFullName()
+  {
+    $answer = $this->getFeedback();
+    return $answer;
+  }
+
+  public function getFrontpage()
+  {
+    if ($this->Frontpage == self::$FrontpageWelcome) { return "FrontpageWelcome"; }
+    elseif ($this->Frontpage == self::$FrontpageLogin) { return "FrontpageLogin"; }
+    elseif ($this->Frontpage == self::$FrontpageLoggedIn) { return "FrontpageLoggedIn"; }
+    elseif ($this->Frontpage == self::$FrontpageLoginFailed) { return "FrontpageLoginFailed"; }
+    elseif ($this->Frontpage == self::$FrontpageRegister) { return "FrontpageRegister"; }
+    return null;
+  }
+
+  public function getFeedback()
+  {
+    if ($this->Feedback == self::$FeedbackChooseProject) { return "FeedbackChooseProject"; }
+    elseif ($this->Feedback == self::$FeedbackRating) { return "FeedbackRating"; }
+    elseif ($this->Feedback == self::$FeedbackRated) { return "FeedbackRated"; }
+    elseif ($this->Feedback == self::$FeedbackRatingFailed) { return "FeedbackRatingFailed"; }
+    return null;
+  }
+
+  public function loginOption()
+  {
+    $wasEventProcessed = false;
+    
+    $aFrontpage = $this->Frontpage;
+    if ($aFrontpage == self::$FrontpageWelcome)
+    {
+      $this->setFrontpage(self::$FrontpageLogin);
+      $wasEventProcessed = true;
+    }
+    return $wasEventProcessed;
+  }
+
+  public function registerOption()
+  {
+    $wasEventProcessed = false;
+    
+    $aFrontpage = $this->Frontpage;
+    if ($aFrontpage == self::$FrontpageWelcome)
+    {
+      $this->setFrontpage(self::$FrontpageRegister);
+      $wasEventProcessed = true;
+    }
+    return $wasEventProcessed;
+  }
+
+  public function userFound()
+  {
+    $wasEventProcessed = false;
+    
+    $aFrontpage = $this->Frontpage;
+    if ($aFrontpage == self::$FrontpageLogin)
+    {
+      $this->setFrontpage(self::$FrontpageLoggedIn);
+      $wasEventProcessed = true;
+    }
+    return $wasEventProcessed;
+  }
+
+  public function userNotFound()
+  {
+    $wasEventProcessed = false;
+    
+    $aFrontpage = $this->Frontpage;
+    if ($aFrontpage == self::$FrontpageLogin)
+    {
+      $this->setFrontpage(self::$FrontpageLoginFailed);
+      $wasEventProcessed = true;
+    }
+    return $wasEventProcessed;
+  }
+
+  private function __autotransition3791__()
+  {
+    $wasEventProcessed = false;
+    
+    $aFrontpage = $this->Frontpage;
+    if ($aFrontpage == self::$FrontpageLoginFailed)
+    {
+      $this->setFrontpage(self::$FrontpageRegister);
+      $wasEventProcessed = true;
+    }
+    return $wasEventProcessed;
+  }
+
+  public function registered()
+  {
+    $wasEventProcessed = false;
+    
+    $aFrontpage = $this->Frontpage;
+    if ($aFrontpage == self::$FrontpageRegister)
+    {
+      $this->exitFrontpage();
+      $this->setFrontpage(self::$FrontpageLogin);
+      $wasEventProcessed = true;
+    }
+    return $wasEventProcessed;
+  }
+
+  public function userAlreadyExists()
+  {
+    $wasEventProcessed = false;
+    
+    $aFrontpage = $this->Frontpage;
+    if ($aFrontpage == self::$FrontpageRegister)
+    {
+      $this->setFrontpage(self::$FrontpageRegister);
+      $wasEventProcessed = true;
+    }
+    return $wasEventProcessed;
+  }
+
+  public function projectIsChosen()
+  {
+    $wasEventProcessed = false;
+    
+    $aFeedback = $this->Feedback;
+    if ($aFeedback == self::$FeedbackChooseProject)
+    {
+      $this->setFeedback(self::$FeedbackRating);
+      $wasEventProcessed = true;
+    }
+    return $wasEventProcessed;
+  }
+
+  public function ratingCompleted()
+  {
+    $wasEventProcessed = false;
+    
+    $aFeedback = $this->Feedback;
+    if ($aFeedback == self::$FeedbackRating)
+    {
+      $this->exitFeedback();
+      $this->setFeedback(self::$FeedbackRated);
+      $wasEventProcessed = true;
+    }
+    return $wasEventProcessed;
+  }
+
+  public function ratingFailed()
+  {
+    $wasEventProcessed = false;
+    
+    $aFeedback = $this->Feedback;
+    if ($aFeedback == self::$FeedbackRating)
+    {
+      $this->exitFeedback();
+      $this->setFeedback(self::$FeedbackRatingFailed);
+      $wasEventProcessed = true;
+    }
+    return $wasEventProcessed;
+  }
+
+  private function __autotransition3792__()
+  {
+    $wasEventProcessed = false;
+    
+    $aFeedback = $this->Feedback;
+    if ($aFeedback == self::$FeedbackRatingFailed)
+    {
+      $this->setFeedback(self::$FeedbackChooseProject);
+      $wasEventProcessed = true;
+    }
+    return $wasEventProcessed;
+  }
+
+  private function exitFrontpage()
+  {
+    if ($this->Frontpage == self::$FrontpageRegister)
+    {
+      registerUserInfo();
+    }
+  }
+
+  private function setFrontpage($aFrontpage)
+  {
+    $this->Frontpage = $aFrontpage;
+
+    // entry actions and do activities
+    if ($this->Frontpage == self::$FrontpageWelcome)
+    {
+      chooseOption();
+    }
+    elseif ($this->Frontpage == self::$FrontpageLogin)
+    {
+      logInWithUserInfo();
+    }
+    elseif ($this->Frontpage == self::$FrontpageLoggedIn)
+    {
+      showAllProjects()
+    }
+    elseif ($this->Frontpage == self::$FrontpageLoginFailed)
+    {
+      showErrorMessage();
+      $this->__autotransition3791__();
+    }
+    elseif ($this->Frontpage == self::$FrontpageRegister)
+    {
+      enterUserInfo();
+    }
+  }
+
+  private function exitFeedback()
+  {
+    if ($this->Feedback == self::$FeedbackRating)
+    {
+      registerRating();
+    }
+  }
+
+  private function setFeedback($aFeedback)
+  {
+    $this->Feedback = $aFeedback;
+
+    // entry actions and do activities
+    if ($this->Feedback == self::$FeedbackChooseProject)
+    {
+      chooseProject();
+    }
+    elseif ($this->Feedback == self::$FeedbackRating)
+    {
+      chooseRating();
+    }
+    elseif ($this->Feedback == self::$FeedbackRated)
+    {
+      showRating();
+    }
+    elseif ($this->Feedback == self::$FeedbackRatingFailed)
+    {
+      showErrorMessage();
+      $this->__autotransition3792__();
+    }
+  }
+
+  public function equals($compareTo)
+  {
+    return $this == $compareTo;
+  }
+
+  public function delete()
+  {}
+
+}
