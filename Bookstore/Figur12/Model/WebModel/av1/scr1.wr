@@ -1,0 +1,43 @@
+<Screen xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" gr:x="30" gr:y="225" id="av1#scr1" name="Shopping Cart">
+  <ViewComponents>
+    <List gr:x="0" gr:y="0" id="av1#scr1#pwu1" name="Product List" checkable="false" dataBinding="cls1" displayAttributes="cls1#att2" eventOrder="av1#scr1#pwu1#oslte2 av1#scr1#pwu1#oslte3">
+      <SortAttribute attribute="cls1#att2" order="ascending"/>
+      <Events>
+        <OnSelectEvent id="av1#scr1#pwu1#oslte2" name="Empty" validate="true" gr:pinned="true" gr:side="1" gr:pos="2">
+          <NavigationFlow id="av1#scr1#pwu1#oslte2#nf3" to="av1#act2" automaticCoupling="true"/>
+        </OnSelectEvent>
+        <OnSelectEvent id="av1#scr1#pwu1#oslte3" name="Update" validate="true" gr:pinned="true" gr:side="1" gr:pos="0">
+          <NavigationFlow id="av1#scr1#pwu1#oslte3#nf4" to="av1#act3">
+            <ParameterBinding id="av1#scr1#pwu1#oslte3#nf4#par1" source="dataSize" passing="true" name="Data Size - PASSING"/>
+            <ParameterBinding id="av1#scr1#pwu1#oslte3#nf4#par2" source="data.cls1#att3" passing="true" name="Details - PASSING"/>
+            <ParameterBinding id="av1#scr1#pwu1#oslte3#nf4#par3" source="data.cls1#att2" passing="true" name="Name - PASSING"/>
+            <ParameterBinding id="av1#scr1#pwu1#oslte3#nf4#par4" source="data.cls1#att1" passing="true" name="oid - PASSING"/>
+            <ParameterBinding id="av1#scr1#pwu1#oslte3#nf4#par5" source="data.cls1#att4" passing="true" name="Price - PASSING"/>
+          </NavigationFlow>
+        </OnSelectEvent>
+      </Events>
+    </List>
+  </ViewComponents>
+  <layout:Grid containerType="grid">
+    <layout:Row>
+      <layout:Cell colspan="12">
+        <layout:Component componentId="av1#scr1#pwu1">
+          <layout:Attribute attribute="cls1#att2"/>
+          <layout:Event event="av1#scr1#pwu1#oslte2" eventType="OnSelectEvent"/>
+          <layout:Event event="av1#scr1#pwu1#oslte3" eventType="OnSelectEvent"/>
+        </layout:Component>
+      </layout:Cell>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+  </layout:Grid>
+</Screen>

@@ -1,0 +1,35 @@
+<Screen xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" gr:x="445" gr:y="115" id="av1#scr2" name="ProductList">
+  <ViewComponents>
+    <List gr:x="0" gr:y="0" id="av1#scr2#pwu2" name="ProductList" checkable="false" dataBinding="cls1" displayAttributes="cls1#att2" eventOrder="av1#scr2#pwu2#oslte6">
+      <SortAttribute attribute="cls1#att2" order="ascending"/>
+      <Events>
+        <OnSelectEvent id="av1#scr2#pwu2#oslte6" name="Details" validate="true">
+          <NavigationFlow id="av1#scr2#pwu2#oslte6#nf5" to="av1#scr3#dau1">
+            <ParameterBinding id="av1#scr2#pwu2#oslte6#nf5#par9" source="data.cls1#att2" target="av1#scr3#dau1#sc1#kcond1.cls1#att1" name="Name - KeyCondition1 [oid]"/>
+          </NavigationFlow>
+        </OnSelectEvent>
+      </Events>
+    </List>
+  </ViewComponents>
+  <layout:Grid containerType="grid">
+    <layout:Row>
+      <layout:Cell colspan="12">
+        <layout:Component componentId="av1#scr2#pwu2">
+          <layout:Attribute attribute="cls1#att2"/>
+          <layout:Event event="av1#scr2#pwu2#oslte6" eventType="OnSelectEvent"/>
+        </layout:Component>
+      </layout:Cell>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+  </layout:Grid>
+</Screen>

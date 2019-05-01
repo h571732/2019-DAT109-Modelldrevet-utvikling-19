@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Plugins>
+  <Plugin id="com.webratio.accountmanager" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\A6AF415ADF4DA50BCA60482475EA42DD"></Plugin>
+  <Plugin id="cordova-plugin-device" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\65286E1613A9C28BA5C3B5195F2BC4B7"></Plugin>
+  <Plugin id="cordova-plugin-dialogs" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\B35D93E98B5F02888BB20E5A87325C1C"></Plugin>
+  <Plugin id="cordova-plugin-file" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\FCD07B81CCE5E3B9F56589C97C440B54"></Plugin>
+  <Plugin id="cordova-plugin-file-transfer" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\011638CB1315F8607C05C91CE8D44234"></Plugin>
+  <Plugin id="cordova-plugin-globalization" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\BA6C2D5C42E976DCF2208AE8D4D92ABC"></Plugin>
+  <Plugin id="cordova-plugin-ionic-webview" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\436C1965B1E47FF33607BD6EEC356E1E"></Plugin>
+  <Plugin id="cordova-plugin-network-information" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\35604A73105B21302B32D1E90E91873F"></Plugin>
+  <Plugin id="cordova-plugin-splashscreen" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\8B2BCF00B4E81214C8C1C1277491DA32"></Plugin>
+  <Plugin id="cordova-plugin-websql" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\A864E8A7B9BB50C4B1E6EB79806AA71A"></Plugin>
+  <Plugin id="cordova-plugin-whitelist" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\F5F0775EFE07251967BA030ED7B5F70B"></Plugin>
+  <Plugin id="ionic-plugin-keyboard" dir="C:\Users\celin\AppData\Local\Temp\native_plugins\B7B87F0B0EC8D4FA314EC76E374F1F88"></Plugin>
+</Plugins>

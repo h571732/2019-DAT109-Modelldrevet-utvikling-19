@@ -1,0 +1,6 @@
+<ActionDefinition xmlns:gr="http://www.webratio.com/2006/WebML/Graph" id="tlads0#ad1" name="Update" defaultSuccessPortDefinition="tlads0#ad1#spd1" defaultErrorPortDefinition="tlads0#ad1#epd1">
+  <Operations/>
+  <InputPortDefinition id="tlads0#ad1#ipd1" gr:x="0" gr:y="30"/>
+  <SuccessPortDefinition id="tlads0#ad1#spd1" name="Success Port" gr:x="0" gr:y="30"/>
+  <ErrorPortDefinition id="tlads0#ad1#epd1" name="Error Port" gr:x="0" gr:y="300"/>
+</ActionDefinition>

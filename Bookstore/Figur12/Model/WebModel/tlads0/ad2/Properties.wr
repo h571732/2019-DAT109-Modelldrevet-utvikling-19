@@ -1,0 +1,6 @@
+<ActionDefinition xmlns:gr="http://www.webratio.com/2006/WebML/Graph" id="tlads0#ad2" name="Empty" defaultSuccessPortDefinition="tlads0#ad2#spd2" defaultErrorPortDefinition="tlads0#ad2#epd2">
+  <Operations/>
+  <InputPortDefinition id="tlads0#ad2#ipd2" gr:x="0" gr:y="30"/>
+  <SuccessPortDefinition id="tlads0#ad2#spd2" name="Success Port" gr:x="0" gr:y="30"/>
+  <ErrorPortDefinition id="tlads0#ad2#epd2" name="Error Port" gr:x="0" gr:y="300"/>
+</ActionDefinition>

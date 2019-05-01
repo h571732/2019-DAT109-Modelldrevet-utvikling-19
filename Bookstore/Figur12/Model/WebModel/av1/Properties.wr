@@ -1,0 +1,18 @@
+<AppView xmlns:gr="http://www.webratio.com/2006/WebML/Graph" id="av1" home="av1#scr1">
+  <Action id="av1#act2" gr:x="270" gr:y="280" name="Empty the cart" definition="tlads0#ad2">
+    <Events>
+      <SuccessEvent id="av1#act2#scce1" definition="tlads0#ad2#spd2">
+        <NavigationFlow id="av1#act2#scce1#nf2" to="av1#scr2#dau1" automaticCoupling="true"/>
+      </SuccessEvent>
+      <ErrorEvent id="av1#act2#erre1" definition="tlads0#ad2#epd2"/>
+    </Events>
+  </Action>
+  <Action id="av1#act3" gr:x="275" gr:y="120" name="Update the quantities" definition="tlads0#ad1">
+    <Events>
+      <SuccessEvent id="av1#act3#scce2" definition="tlads0#ad1#spd1">
+        <NavigationFlow id="av1#act3#scce2#nf6" to="av1#scr1" automaticCoupling="true"/>
+      </SuccessEvent>
+      <ErrorEvent id="av1#act3#erre2" definition="tlads0#ad1#epd1"/>
+    </Events>
+  </Action>
+</AppView>

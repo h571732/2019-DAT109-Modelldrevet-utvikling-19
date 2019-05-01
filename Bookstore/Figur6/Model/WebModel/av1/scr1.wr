@@ -1,0 +1,50 @@
+<Screen xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" gr:x="70" gr:y="120" id="av1#scr1" name="ProductCategories">
+  <ViewComponents>
+    <List gr:x="0" gr:y="0" id="av1#scr1#pwu1" name="CategoryList" checkable="false" dataBinding="cls2" displayAttributes="cls2#att6 cls2#att7" eventOrder="av1#scr1#pwu1#oslte7">
+      <SortAttribute attribute="cls2#att6" order="ascending"/>
+      <Events>
+        <OnSelectEvent id="av1#scr1#pwu1#oslte7" name="List" validate="true">
+          <NavigationFlow id="av1#scr1#pwu1#oslte7#nf6" to="av1#scr2#pwu2">
+            <ParameterBinding id="av1#scr1#pwu1#oslte7#nf6#par10" source="data.cls2#att6" target="maxResults" name="Name - Max Results"/>
+          </NavigationFlow>
+        </OnSelectEvent>
+      </Events>
+    </List>
+  </ViewComponents>
+  <layout:Grid containerType="grid">
+    <layout:Row>
+      <layout:Cell colspan="12">
+        <layout:Component componentId="av1#scr1#pwu1">
+          <layout:Attribute attribute="cls2#att6"/>
+          <layout:Attribute attribute="cls2#att7"/>
+          <layout:Event event="av1#scr1#pwu1#oslte7" eventType="OnSelectEvent"/>
+        </layout:Component>
+      </layout:Cell>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+    <layout:Row>
+      <layout:Cell colspan="12"/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+  </layout:Grid>
+</Screen>
