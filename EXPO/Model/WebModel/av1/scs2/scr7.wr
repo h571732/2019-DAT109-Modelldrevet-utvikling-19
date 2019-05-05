@@ -1,0 +1,31 @@
+<Screen xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" gr:x="565" gr:y="0" id="av1#scs2#scr7" name="Feedback">
+  <ViewComponents>
+    <Form gr:x="5" gr:y="85" id="av1#scs2#scr7#enu8" name="Stemme" fieldOrder="av1#scs2#scr7#enu8#sfld4" eventOrder="av1#scs2#scr7#enu8#oslte10">
+      <SelectionField id="av1#scs2#scr7#enu8#sfld4" name="Vurdering" type="text" splitOutput="true" slotOrder="av1#scs2#scr7#enu8#sfld4#slot13 av1#scs2#scr7#enu8#sfld4#slot10 av1#scs2#scr7#enu8#sfld4#slot11 av1#scs2#scr7#enu8#sfld4#slot12 av1#scs2#scr7#enu8#sfld4#slot14 av1#scs2#scr7#enu8#sfld4#slot15">
+        <Slot id="av1#scs2#scr7#enu8#sfld4#slot10" name="1" label="true" output="true" value="1"/>
+        <Slot id="av1#scs2#scr7#enu8#sfld4#slot11" name="2" label="true" output="true" value="2"/>
+        <Slot id="av1#scs2#scr7#enu8#sfld4#slot12" name="3" label="true" output="true" value="3"/>
+        <Slot id="av1#scs2#scr7#enu8#sfld4#slot13" name="0" label="true" output="true" value="0"/>
+        <Slot id="av1#scs2#scr7#enu8#sfld4#slot14" name="4" label="true" output="true" value="4"/>
+        <Slot id="av1#scs2#scr7#enu8#sfld4#slot15" name="5" label="true" output="true" value="5"/>
+      </SelectionField>
+      <Events>
+        <OnSelectEvent id="av1#scs2#scr7#enu8#oslte10" name="Farvel" validate="true">
+          <NavigationFlow id="av1#scs2#scr7#enu8#oslte10#nf13" to="av1#scs2#scr7#mssu4" automaticCoupling="true"/>
+        </OnSelectEvent>
+      </Events>
+    </Form>
+    <Message gr:x="0" gr:y="0" id="av1#scs2#scr7#mssu3" name="Velkommen" eventOrder="av1#scs2#scr7#mssu3#oslte11">
+      <Message xml:space="preserve">Hei der!
+Nedenfor her kan du stemme hva du syntes om de forskjellige "stands"
+Du kan stemme alt fra 0-&gt;5
+Husk at 0 = ingen stemme. </Message>
+      <Events>
+        <OnSelectEvent id="av1#scs2#scr7#mssu3#oslte11" name="Stemme">
+          <NavigationFlow id="av1#scs2#scr7#mssu3#oslte11#nf14" to="av1#scs2#scr7#enu8" automaticCoupling="true"/>
+        </OnSelectEvent>
+      </Events>
+    </Message>
+    <Message gr:x="65" gr:y="180" id="av1#scs2#scr7#mssu4" name="Farvel">
+      <Message xml:space="preserve">Takk for din stemme!
+</Message>    </Message>  </ViewComponents>  <layout:Grid containerType="grid">    <layout:Row>      <layout:Cell colspan="12">        <layout:Component componentId="av1#scs2#scr7#enu8">          <layout:Event event="av1#scs2#scr7#enu8#oslte10" eventType="OnSelectEvent"/>          <layout:Field field="av1#scs2#scr7#enu8#sfld4"/>        </layout:Component>      </layout:Cell>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>    </layout:Row>    <layout:Row>      <layout:Cell colspan="12">        <layout:Component componentId="av1#scs2#scr7#mssu3">          <layout:Event event="av1#scs2#scr7#mssu3#oslte11" eventType="OnSelectEvent"/>        </layout:Component>      </layout:Cell>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>    </layout:Row>    <layout:Row>      <layout:Cell colspan="12">        <layout:Component componentId="av1#scs2#scr7#mssu4"/>      </layout:Cell>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>      <layout:Cell/>    </layout:Row>  </layout:Grid></Screen>

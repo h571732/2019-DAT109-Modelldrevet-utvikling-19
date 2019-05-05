@@ -1,0 +1,21 @@
+<AppView xmlns:gr="http://www.webratio.com/2006/WebML/Graph" id="av1" login="av1#scs2#scr6" home="av1#scs2#scr6">
+  <Action id="av1#act1" gr:x="670" gr:y="145" definition="tlads0#ad2">
+    <Events>
+      <SuccessEvent id="av1#act1#scce1" definition="tlads0#ad2#spd2" gr:pinned="true" gr:side="7" gr:pos="0">
+        <NavigationFlow id="av1#act1#scce1#nf6" to="av1#scs2#scr7#mssu3">
+          <ParameterBinding id="av1#act1#scce1#nf6#par8" source="tlads0#ad2#spd2#pdp1" target="messages" name="Format - Shown Messages"/>
+        </NavigationFlow>
+      </SuccessEvent>
+      <ErrorEvent id="av1#act1#erre1" definition="tlads0#ad2#epd2"/>
+    </Events>
+  </Action>
+  <Action id="av1#act2" gr:x="195" gr:y="225" definition="tlads0#ad3">
+    <Comment xml:space="preserve">This is the action encapsulating the business logic needed in order to execute the user login. When the action execution is successful, the action follows the navigation flow outgoing from the Success Event. When the action fails, it outputs an error message, which is automatically handled by the mobile application and shown in a device system dialog. In this case, no navigation flow has been modeled from the Error Event; the application behavior is to show the dialog in the screen from which the action was previously triggered.</Comment>
+    <Events>
+      <SuccessEvent id="av1#act2#scce2" definition="tlads0#ad3#spd3">
+        <NavigationFlow id="av1#act2#scce2#nf17" to="av1#scs2#scr6" automaticCoupling="true"/>
+      </SuccessEvent>
+      <ErrorEvent id="av1#act2#erre2" definition="tlads0#ad3#epd3"/>
+    </Events>
+  </Action>
+</AppView>

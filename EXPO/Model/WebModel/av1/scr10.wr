@@ -1,0 +1,47 @@
+<Screen xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" id="av1#scr10" gr:x="25" gr:y="145" name="Login">
+  <layout:Grid>
+    <layout:Row>
+      <layout:Cell colspan="12">
+        <layout:Component componentId="av1#scr10#enu9">
+          <layout:Field field="av1#scr10#enu9#fld16"/>
+          <layout:Field field="av1#scr10#enu9#fld17"/>
+          <layout:Event event="av1#scr10#enu9#osbme1" eventType="OnSubmitEvent"/>
+        </layout:Component>
+      </layout:Cell>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+  </layout:Grid>
+  <ViewComponents>
+    <Form id="av1#scr10#enu9" name="Login" gr:x="0" gr:y="0" fieldOrder="av1#scr10#enu9#fld16 av1#scr10#enu9#fld17" eventOrder="av1#scr10#enu9#osbme1">
+      <Field id="av1#scr10#enu9#fld16" name="Username" type="string" modifiable="true">
+        <VRules>
+          <MandatoryValidationRule id="av1#scr10#enu9#fld16#mnd1" name="Mandatory"/>
+        </VRules>
+      </Field>
+      <Field id="av1#scr10#enu9#fld17" name="Password" type="password" modifiable="true">
+        <VRules>
+          <MandatoryValidationRule id="av1#scr10#enu9#fld17#mnd2" name="Mandatory"/>
+        </VRules>
+      </Field>
+      <Events>
+        <OnSubmitEvent id="av1#scr10#enu9#osbme1" name="Login" validate="true">
+          <NavigationFlow id="av1#scr10#enu9#osbme1#nf16" to="av1#act2">
+            <ParameterBinding id="av1#scr10#enu9#osbme1#nf16#par11" source="av1#scr10#enu9#fld16" target="av1#act2.username"/>
+            <ParameterBinding id="av1#scr10#enu9#osbme1#nf16#par12" source="av1#scr10#enu9#fld17" target="av1#act2.password"/>
+          </NavigationFlow>
+        </OnSubmitEvent>
+      </Events>
+    </Form>
+  </ViewComponents>
+  <Comment xml:space="preserve">This screen allows the user to log in to the mobile application. This is the only screen to be used for the login and that's why it is set as "login". It contains a form letting the user enter the username and password and submit them.</Comment>
+</Screen>

@@ -1,0 +1,27 @@
+<DomainModel xmlns:gr="http://www.webratio.com/2006/WebML/Graph" dataSyncOnReopen="true">
+  <Class gr:x="150" gr:y="160" id="MUser" name="App User" singleton="true" duration="persistent" attributeOrder="mUserOID mUsername">
+    <Attribute id="mUserOID" key="true" name="oid" type="integer" specialBehavior="implicitOid"/>
+    <Attribute id="mUsername" name="username" type="string"/>
+    <Comment xml:space="preserve">App User represents the current user of the mobile application. The user is identified by username. For security reasons, other information, such as the password, is not stored here but in the device account manager. You are free to add any additional attribute to this class.  When using the Mobile Project in combination with a Data Service project, this class must be mapped on the remote User class, and thus inherits its attributes.</Comment>
+  </Class>
+  <Class gr:x="450" gr:y="170" id="MRole" name="App Role" duration="persistent" attributeOrder="mRoleOID mRoleName">
+    <Attribute id="mRoleOID" key="true" name="oid" type="integer" specialBehavior="implicitOid"/>
+    <Attribute id="mRoleName" name="name" type="string"/>
+    <Comment xml:space="preserve">App Role represents an application role belonging to the current user of the mobile application. When the Mobile Project is used in combination with a Data Service project, the list of roles is automatically retrieved from remote at the login.</Comment>
+  </Class>
+  <Association id="MUser2MRole_MRole2MUser" sourceClass="MUser" targetClass="MRole">
+    <AssociationRole1 id="MUser2MRole" name="AppUserToAppRole" maxCard="N"/>
+    <AssociationRole2 id="MRole2MUser" name="AppRoleToAppUser" maxCard="1"/>
+  </Association>
+  <Class gr:x="205" gr:y="340" id="cls1" name="Feedback" duration="persistent" attributeOrder="cls1#att1 cls1#att2 cls1#att3">
+    <Attribute id="cls1#att1" key="true" name="oid" type="integer" specialBehavior="implicitOid"/>
+    <Attribute id="cls1#att3" name="navn" type="string"/>
+    <Attribute id="cls1#att2" name="verdi" type="integer"/>
+  </Class>
+  <Class gr:x="455" gr:y="335" id="cls2" name="Stand" duration="persistent" attributeOrder="cls2#att4 cls2#att5 cls2#att6 cls2#att7">
+    <Attribute id="cls2#att4" key="true" name="oid" type="integer" specialBehavior="implicitOid"/>
+    <Attribute id="cls2#att7" name="Bedriftnavn" type="string"/>
+    <Attribute id="cls2#att6" name="Prosjektbeskrivelse" type="string"/>
+    <Attribute id="cls2#att5" name="Prosjektnavn" type="string"/>
+  </Class>
+</DomainModel>

@@ -1,0 +1,22 @@
+<ActionDefinition xmlns:gr="http://www.webratio.com/2006/WebML/Graph" id="tlads0#ad2" name="Scan Barcode" defaultSuccessPortDefinition="tlads0#ad2#spd2" defaultErrorPortDefinition="tlads0#ad2#epd2">
+  <Operations>
+    <BarcodeOperation gr:x="385" gr:y="60" id="tlads0#ad2#brcd2" name="Barcode ">
+      <SuccessFlow id="tlads0#ad2#brcd2#sf5" to="tlads0#ad2#spd2">
+        <ParameterBinding id="tlads0#ad2#brcd2#sf5#par1" source="format" target="tlads0#ad2#spd2#pdp1"/>
+        <ParameterBinding id="tlads0#ad2#brcd2#sf5#par2" source="value" target="tlads0#ad2#spd2#pdp2"/>
+        <ParameterBinding id="tlads0#ad2#brcd2#sf5#par3" source="valueType" target="tlads0#ad2#spd2#pdp3"/>
+      </SuccessFlow>
+      <ErrorFlow id="tlads0#ad2#brcd2#ef2" to="tlads0#ad2#epd2" automaticCoupling="true"/>
+      <SuccessFlow id="tlads0#ad2#brcd2#sf6" to="tlads0#ad2#spd2" automaticCoupling="true"/>
+    </BarcodeOperation>
+  </Operations>
+  <InputPortDefinition id="tlads0#ad2#ipd2" gr:x="0" gr:y="30">
+    <SuccessFlow id="tlads0#ad2#ipd2#sf4" to="tlads0#ad2#brcd2" automaticCoupling="true"/>
+  </InputPortDefinition>
+  <SuccessPortDefinition id="tlads0#ad2#spd2" name="Success Port" gr:x="0" gr:y="30">
+    <PortDefinitionParameter id="tlads0#ad2#spd2#pdp1" name="Format"/>
+    <PortDefinitionParameter id="tlads0#ad2#spd2#pdp2" name="Value"/>
+    <PortDefinitionParameter id="tlads0#ad2#spd2#pdp3" name="Value Type"/>
+  </SuccessPortDefinition>
+  <ErrorPortDefinition id="tlads0#ad2#epd2" name="Error Port" gr:x="0" gr:y="300"/>
+</ActionDefinition>

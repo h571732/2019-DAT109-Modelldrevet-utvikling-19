@@ -1,0 +1,66 @@
+<Screen xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" gr:x="0" gr:y="5" id="av1#scs2#scr6" name="Barcode">
+  <ViewComponents>
+    <Form gr:x="0" gr:y="0" id="av1#scs2#scr6#enu7" name="Barcode" eventOrder="av1#scs2#scr6#enu7#oslte8" fieldOrder="av1#scs2#scr6#enu7#fld14 av1#scs2#scr6#enu7#fld13 av1#scs2#scr6#enu7#fld12">
+      <Events>
+        <OnSelectEvent id="av1#scs2#scr6#enu7#oslte8" name="Scan" validate="true">
+          <NavigationFlow id="av1#scs2#scr6#enu7#oslte8#nf11" to="av1#act1" automaticCoupling="true"/>
+        </OnSelectEvent>
+      </Events>
+      <Field id="av1#scs2#scr6#enu7#fld12" name="ValueType" type="string" preloaded="true" modifiable="true"/>
+      <Field id="av1#scs2#scr6#enu7#fld13" name="Value" type="string" preloaded="true" modifiable="true"/>
+      <Field id="av1#scs2#scr6#enu7#fld14" name="Format" type="string" preloaded="true" modifiable="true"/>
+    </Form>
+    <List gr:x="45" gr:y="85" id="av1#scs2#scr6#pwu3" name="Lists of stands" checkable="false" dataBinding="cls2" displayAttributes="cls2#att5" eventOrder="av1#scs2#scr6#pwu3#oslte9">
+      <SortAttribute attribute="cls2#att5" order="ascending"/>
+      <Events>
+        <OnSelectEvent id="av1#scs2#scr6#pwu3#oslte9" name="Details" validate="true">
+          <NavigationFlow id="av1#scs2#scr6#pwu3#oslte9#nf12" to="av1#scs2#scr5#brcd4">
+            <ParameterBinding id="av1#scs2#scr6#pwu3#oslte9#nf12#par10" source="data.cls2#att6" target="text" name="Prosjektbeskrivelse - Text"/>
+          </NavigationFlow>
+        </OnSelectEvent>
+      </Events>
+    </List>
+  </ViewComponents>
+  <layout:Grid containerType="grid">
+    <layout:Row>
+      <layout:Cell colspan="12">
+        <layout:Component componentId="av1#scs2#scr6#enu7">
+          <layout:Event event="av1#scs2#scr6#enu7#oslte8" eventType="OnSelectEvent"/>
+          <layout:Field field="av1#scs2#scr6#enu7#fld14"/>
+          <layout:Field field="av1#scs2#scr6#enu7#fld13"/>
+          <layout:Field field="av1#scs2#scr6#enu7#fld12"/>
+        </layout:Component>
+      </layout:Cell>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+    <layout:Row>
+      <layout:Cell colspan="12">
+        <layout:Component componentId="av1#scs2#scr6#pwu3">
+          <layout:Attribute attribute="cls2#att5"/>
+          <layout:Event event="av1#scs2#scr6#pwu3#oslte9" eventType="OnSelectEvent"/>
+        </layout:Component>
+      </layout:Cell>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+      <layout:Cell/>
+    </layout:Row>
+  </layout:Grid>
+</Screen>

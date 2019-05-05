@@ -1,0 +1,21 @@
+<Toolbar xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" gr:x="495" gr:y="520" id="av1#tlb1" name="Application Menu">
+  <ViewComponents/>
+  <layout:CustomLocation name="Bottom Bar">
+    <layout:Grid containerType="cell">
+      <layout:Row>
+        <layout:Cell>
+          <layout:Fragment type="screenTitle"/>
+        </layout:Cell>
+      </layout:Row>
+    </layout:Grid>
+  </layout:CustomLocation>
+  <layout:CustomLocation name="Top Bar">
+    <layout:Grid containerType="cell">
+      <layout:Row>
+        <layout:Cell>
+          <layout:Event eventType="BackEvent"/>
+        </layout:Cell>
+      </layout:Row>
+    </layout:Grid>
+  </layout:CustomLocation>
+</Toolbar>
